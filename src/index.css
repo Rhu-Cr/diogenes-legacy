@@ -40,8 +40,10 @@
     --gold-light: 45 80% 90%;
     --navy: 220 60% 22%;
     --navy-light: 220 40% 35%;
-    --success: 145 60% 42%;
+    --success: 152 60% 42%;
     --success-foreground: 0 0% 100%;
+    --progress: 152 60% 42%;
+    --progress-foreground: 0 0% 100%;
 
     --sidebar-background: 220 60% 18%;
     --sidebar-foreground: 45 80% 95%;
