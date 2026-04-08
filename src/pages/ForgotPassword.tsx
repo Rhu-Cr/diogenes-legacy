@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen } from "lucide-react";
+import { BackButton } from "@/components/BackButton";
 import { toast } from "sonner";
 
 export default function ForgotPassword() {
@@ -33,6 +34,9 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4">
       <div className="w-full max-w-md">
+        <div className="mb-4">
+          <BackButton label="Voltar" to="/auth" />
+        </div>
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 font-heading text-2xl font-bold text-foreground">
             <BookOpen className="h-7 w-7 text-accent" />
