@@ -9,6 +9,7 @@ const navItems = [
   { label: "Trilhas", href: "/#trilhas" },
   { label: "Desafios", href: "/#desafios" },
   { label: "Sobre Diógenes", href: "/#sobre" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function Navbar() {
