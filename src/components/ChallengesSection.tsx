@@ -1,10 +1,13 @@
-import { Trophy, Star, Clock, Zap } from "lucide-react";
+import { Trophy, Star, Clock, Zap, CheckCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const challenges = [
   {
+    id: "ordene-array",
     title: "Ordene o Array",
     description: "Implemente o algoritmo Bubble Sort e otimize sua performance.",
     difficulty: "Fácil",
@@ -13,6 +16,7 @@ const challenges = [
     topic: "Algoritmos",
   },
   {
+    id: "arvore-binaria",
     title: "Árvore Binária de Busca",
     description: "Construa uma BST e implemente a busca, inserção e remoção.",
     difficulty: "Médio",
@@ -21,6 +25,7 @@ const challenges = [
     topic: "Estruturas de Dados",
   },
   {
+    id: "padrao-observer",
     title: "Padrão Observer",
     description: "Implemente o padrão Observer para um sistema de notificações.",
     difficulty: "Difícil",
@@ -37,6 +42,14 @@ const difficultyColors: Record<string, string> = {
 };
 
 export function ChallengesSection() {
+  const navigate = useNavigate();
+  const [completedChallenges, setCompletedChallenges] = useState<Record<string, { points: number }>>({});
+
+  useEffect(() => {
+    const stored = localStorage.getItem("completedChallenges");
+    if (stored) setCompletedChallenges(JSON.parse(stored));
+  }, []);
+
   return (
     <section id="desafios" className="py-20 bg-muted/50" aria-labelledby="challenges-heading">
       <div className="container mx-auto px-4">
@@ -79,9 +92,15 @@ export function ChallengesSection() {
                     </span>
                   </div>
                 </div>
-                <Button className="w-full mt-4 bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 transition-opacity" size="sm">
-                  Aceitar Desafio
-                </Button>
+                {completedChallenges[challenge.id] ? (
+                  <Button className="w-full mt-4" size="sm" variant="outline" onClick={() => navigate(`/desafio/${challenge.id}`)}>
+                    <CheckCircle className="h-4 w-4 mr-1 text-success" /> Concluído — {completedChallenges[challenge.id].points} pts
+                  </Button>
+                ) : (
+                  <Button className="w-full mt-4 bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 transition-opacity" size="sm" onClick={() => navigate(`/desafio/${challenge.id}`)}>
+                    Aceitar Desafio
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
