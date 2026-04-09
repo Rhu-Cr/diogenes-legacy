@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Lesson from "./pages/Lesson.tsx";
+import Challenge from "./pages/Challenge.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/aula/:pathId/:lessonId" element={<Lesson />} />
+            <Route path="/desafio/:challengeId" element={<Challenge />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
