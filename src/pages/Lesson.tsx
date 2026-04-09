@@ -42,6 +42,11 @@ function encontrarMaior(numeros) {
 console.log(encontrarMaior([3, 7, 2, 9, 1])); // 9`,
       challenge: "Modifique o algoritmo acima para encontrar tanto o maior quanto o menor número do array. Retorne um objeto com ambos os valores.",
       diogenesTip: "Lembre-se: antes de programar, pense no passo a passo em português! Um algoritmo bem pensado é metade do código pronto.",
+      quiz: [
+        { question: "O que é um algoritmo?", options: ["Um tipo de linguagem de programação", "Uma sequência finita de instruções para resolver um problema", "Um software de computador", "Um banco de dados"], correctIndex: 1, explanation: "Um algoritmo é uma sequência finita de instruções bem definidas para resolver um problema." },
+        { question: "Qual NÃO é uma característica de um bom algoritmo?", options: ["Finitude", "Ambiguidade", "Efetividade", "Saída"], correctIndex: 1, explanation: "Um bom algoritmo deve ter definição clara — sem ambiguidade!" },
+        { question: "Qual é a saída de encontrarMaior([3, 7, 2, 9, 1])?", options: ["3", "7", "9", "1"], correctIndex: 2, explanation: "O algoritmo percorre o array e retorna o maior valor, que é 9." },
+      ],
     },
     busca: {
       title: "Algoritmos de Busca",
@@ -65,6 +70,11 @@ function buscaBinaria(arr, alvo) {
 console.log(buscaBinaria([1, 3, 5, 7, 9], 7)); // 3`,
       challenge: "Implemente uma busca binária recursiva e compare com a versão iterativa.",
       diogenesTip: "A busca binária é como procurar uma palavra no dicionário: você não começa da primeira página, vai direto ao meio!",
+      quiz: [
+        { question: "Qual a complexidade da busca linear?", options: ["O(1)", "O(log n)", "O(n)", "O(n²)"], correctIndex: 2, explanation: "A busca linear percorre cada elemento, logo é O(n)." },
+        { question: "A busca binária exige que a lista esteja:", options: ["Vazia", "Ordenada", "Com números pares", "Sem repetições"], correctIndex: 1, explanation: "A busca binária só funciona em listas ordenadas, pois depende de comparar com o elemento do meio." },
+        { question: "Qual o resultado de buscaBinaria([1,3,5,7,9], 7)?", options: ["7", "4", "3", "-1"], correctIndex: 2, explanation: "O valor 7 está no índice 3 do array." },
+      ],
     },
     ordenacao: {
       title: "Algoritmos de Ordenação",
@@ -86,6 +96,11 @@ console.log(bubbleSort([64, 34, 25, 12, 22]));
 // [12, 22, 25, 34, 64]`,
       challenge: "Implemente o Quick Sort e conte quantas comparações cada algoritmo faz para ordenar o mesmo array.",
       diogenesTip: "Bubble Sort é como organizar cartas: simples, mas imagine fazer isso com mil cartas! Por isso existem algoritmos melhores.",
+      quiz: [
+        { question: "Qual a complexidade do Bubble Sort?", options: ["O(n)", "O(n log n)", "O(n²)", "O(log n)"], correctIndex: 2, explanation: "O Bubble Sort usa dois loops aninhados, resultando em O(n²)." },
+        { question: "Qual a complexidade média do Quick Sort?", options: ["O(n²)", "O(n)", "O(n log n)", "O(log n)"], correctIndex: 2, explanation: "O Quick Sort tem complexidade média de O(n log n) graças à partição eficiente." },
+        { question: "O que o Bubble Sort faz em cada iteração?", options: ["Divide o array ao meio", "Compara pares adjacentes e troca se necessário", "Seleciona o menor elemento", "Insere em posição correta"], correctIndex: 1, explanation: "O Bubble Sort compara elementos adjacentes e os troca se estiverem fora de ordem." },
+      ],
     },
     recursao: {
       title: "Recursão",
@@ -108,6 +123,11 @@ console.log(fatorial(5));    // 120
 console.log(fibonacci(10));  // 55`,
       challenge: "Implemente a sequência de Fibonacci com memoização para melhorar a performance.",
       diogenesTip: "Recursão é como bonecas russas: cada uma contém uma versão menor de si mesma, até chegar na menor!",
+      quiz: [
+        { question: "O que acontece se uma recursão não tiver caso base?", options: ["Retorna undefined", "Entra em loop infinito (stack overflow)", "Retorna 0", "Funciona normalmente"], correctIndex: 1, explanation: "Sem caso base, a função se chama infinitamente até estourar a pilha de chamadas." },
+        { question: "Qual o valor de fatorial(5)?", options: ["25", "120", "60", "24"], correctIndex: 1, explanation: "5! = 5 × 4 × 3 × 2 × 1 = 120." },
+        { question: "Quais são os dois elementos essenciais da recursão?", options: ["Loop e condição", "Caso base e caso recursivo", "Input e output", "Variável e constante"], correctIndex: 1, explanation: "Toda recursão precisa de um caso base (parada) e um caso recursivo (chamada a si mesma)." },
+      ],
     },
   },
   estruturas: {
@@ -144,6 +164,11 @@ class ListaEncadeada {
 }`,
       challenge: "Adicione um método 'remover(valor)' que remove a primeira ocorrência do valor na lista.",
       diogenesTip: "Listas encadeadas são como um trem: cada vagão sabe qual é o próximo, mas não tem ideia de quem está lá no final!",
+      quiz: [
+        { question: "Qual a complexidade de acesso a um elemento em uma lista encadeada?", options: ["O(1)", "O(log n)", "O(n)", "O(n²)"], correctIndex: 2, explanation: "Listas encadeadas exigem percorrer os nós sequencialmente, logo O(n)." },
+        { question: "O que cada nó de uma lista encadeada contém?", options: ["Apenas um valor", "Um valor e uma referência ao próximo nó", "Um índice e um valor", "Dois valores"], correctIndex: 1, explanation: "Cada nó armazena um valor e um ponteiro para o próximo nó da lista." },
+        { question: "Qual é uma vantagem da lista encadeada sobre arrays?", options: ["Acesso direto por índice", "Inserção e remoção eficientes", "Menor uso de memória", "Ordenação automática"], correctIndex: 1, explanation: "Inserção e remoção em listas encadeadas são O(1) quando se tem a referência." },
+      ],
     },
     pilhas: {
       title: "Pilhas e Filas",
@@ -171,6 +196,11 @@ class Fila {
 }`,
       challenge: "Use uma pilha para verificar se uma expressão com parênteses está balanceada. Ex: '((()))' → true, '(()' → false",
       diogenesTip: "Pilha é como desfazer no editor: o último comando que você fez é o primeiro a ser desfeito! Ctrl+Z puro!",
+      quiz: [
+        { question: "O que significa LIFO?", options: ["Last In, First Out", "Last In, Fast Out", "Linear Input, First Output", "Linked In, First Out"], correctIndex: 0, explanation: "LIFO = Last In, First Out — o último a entrar é o primeiro a sair." },
+        { question: "Qual estrutura segue o princípio FIFO?", options: ["Pilha", "Fila", "Árvore", "Grafo"], correctIndex: 1, explanation: "Fila (Queue) segue FIFO: First In, First Out." },
+        { question: "Qual operação remove o elemento do topo da pilha?", options: ["enfileirar", "empilhar", "desempilhar", "desenfileirar"], correctIndex: 2, explanation: "Desempilhar (pop) remove o elemento do topo da pilha." },
+      ],
     },
     arvores: {
       title: "Árvores Binárias",
@@ -204,6 +234,11 @@ class BST {
 }`,
       challenge: "Implemente os três percursos da árvore: em-ordem, pré-ordem e pós-ordem.",
       diogenesTip: "Uma árvore binária é como uma árvore genealógica invertida: começa por um ancestral e vai ramificando!",
+      quiz: [
+        { question: "Quantos filhos no máximo um nó de árvore binária pode ter?", options: ["1", "2", "3", "Ilimitado"], correctIndex: 1, explanation: "Uma árvore binária permite no máximo dois filhos por nó." },
+        { question: "Em uma BST, onde ficam os valores menores que o nó?", options: ["À direita", "À esquerda", "No topo", "Na raiz"], correctIndex: 1, explanation: "Na BST, valores menores ficam à esquerda e maiores à direita." },
+        { question: "Qual a complexidade média de busca em uma BST?", options: ["O(n)", "O(1)", "O(log n)", "O(n²)"], correctIndex: 2, explanation: "A BST divide o espaço de busca pela metade, resultando em O(log n) no caso médio." },
+      ],
     },
     grafos: {
       title: "Grafos",
@@ -244,6 +279,11 @@ class BST {
 }`,
       challenge: "Implemente a busca em profundidade (DFS) tanto iterativa quanto recursiva.",
       diogenesTip: "Grafos estão em todo lugar: redes sociais, mapas, internet. Se você entende grafos, entende o mundo digital!",
+      quiz: [
+        { question: "O que compõe um grafo?", options: ["Arrays e loops", "Vértices e arestas", "Nós e folhas", "Pilhas e filas"], correctIndex: 1, explanation: "Um grafo é formado por vértices (nós) e arestas (conexões entre eles)." },
+        { question: "Em um grafo não-direcionado, as arestas são:", options: ["Unidirecionais", "Bidirecionais", "Ponderadas", "Cíclicas"], correctIndex: 1, explanation: "Grafos não-direcionados têm arestas bidirecionais — a conexão vai nos dois sentidos." },
+        { question: "BFS usa qual estrutura auxiliar?", options: ["Pilha", "Árvore", "Fila", "Grafo"], correctIndex: 2, explanation: "A BFS (Busca em Largura) utiliza uma fila para explorar os vizinhos nível por nível." },
+      ],
     },
   },
   engenharia: {
@@ -272,6 +312,11 @@ class RelatorioService {
 }`,
       challenge: "Refatore uma classe 'Pedido' que calcula total, aplica desconto, salva no banco e envia notificação, aplicando o princípio S do SOLID.",
       diogenesTip: "SOLID não é só teoria — é a diferença entre código que dura anos e código que vira legado problemático em meses!",
+      quiz: [
+        { question: "O que significa o 'S' em SOLID?", options: ["Simple Responsibility", "Single Responsibility", "Software Reliability", "System Requirements"], correctIndex: 1, explanation: "O S de SOLID é Single Responsibility — cada classe deve ter apenas uma responsabilidade." },
+        { question: "O princípio Open/Closed diz que código deve ser:", options: ["Aberto para modificação, fechado para extensão", "Aberto para extensão, fechado para modificação", "Sempre aberto", "Sempre fechado"], correctIndex: 1, explanation: "Open/Closed: aberto para extensão (adicionar funcionalidade) mas fechado para modificação do código existente." },
+        { question: "O princípio 'D' recomenda depender de:", options: ["Implementações concretas", "Abstrações", "Banco de dados", "Classes finais"], correctIndex: 1, explanation: "Dependency Inversion: dependa de abstrações (interfaces), não de implementações concretas." },
+      ],
     },
     padroes: {
       title: "Padrões de Projeto",
@@ -304,6 +349,11 @@ emitter.on('novaVenda', (venda) => {
 emitter.emit('novaVenda', { produto: 'Livro', valor: 49.90 });`,
       challenge: "Implemente o padrão Strategy para um sistema de cálculo de frete com diferentes estratégias (Sedex, PAC, Expresso).",
       diogenesTip: "Padrões de projeto são como peças de LEGO: você aprende a usar cada peça e depois constrói o que quiser!",
+      quiz: [
+        { question: "O padrão Observer pertence a qual categoria?", options: ["Criacional", "Estrutural", "Comportamental", "Arquitetural"], correctIndex: 2, explanation: "Observer é um padrão comportamental — define como objetos se comunicam." },
+        { question: "Qual padrão garante que apenas uma instância de uma classe exista?", options: ["Factory", "Observer", "Singleton", "Strategy"], correctIndex: 2, explanation: "O Singleton restringe a criação de uma classe a uma única instância." },
+        { question: "O padrão Factory é do tipo:", options: ["Comportamental", "Estrutural", "Criacional", "Nenhum"], correctIndex: 2, explanation: "Factory é um padrão criacional — lida com a criação de objetos." },
+      ],
     },
     testes: {
       title: "Testes de Software",
@@ -335,6 +385,11 @@ describe('somar', () => {
 });`,
       challenge: "Escreva testes unitários para uma função 'validarEmail' que verifica se um email é válido.",
       diogenesTip: "Código sem teste é como avião sem checklist pré-voo: pode até funcionar, mas você quer arriscar? 🛫",
+      quiz: [
+        { question: "O que o 'A' de Arrange no princípio AAA significa?", options: ["Analisar o código", "Preparar os dados de teste", "Executar a ação", "Verificar o resultado"], correctIndex: 1, explanation: "Arrange = preparar os dados e o cenário para o teste." },
+        { question: "Testes unitários testam:", options: ["O sistema inteiro", "Componentes integrados", "Funções isoladas", "A interface do usuário"], correctIndex: 2, explanation: "Testes unitários focam em testar funções ou métodos de forma isolada." },
+        { question: "Testes E2E significam:", options: ["Error to Error", "End to End", "Entry to Exit", "Execute to Evaluate"], correctIndex: 1, explanation: "E2E = End to End, testam o sistema completo do início ao fim." },
+      ],
     },
     arquitetura: {
       title: "Arquitetura de Software",
@@ -374,6 +429,11 @@ class ProdutoController {
 }`,
       challenge: "Projete a arquitetura de um sistema de e-commerce simples usando Clean Architecture. Defina as camadas e suas responsabilidades.",
       diogenesTip: "Boa arquitetura é como um bom alicerce: invisível para o usuário, mas essencial para o prédio não cair!",
+      quiz: [
+        { question: "O que significa MVC?", options: ["Model-View-Controller", "Main-Virtual-Component", "Module-Version-Control", "Managed-View-Class"], correctIndex: 0, explanation: "MVC = Model-View-Controller, um dos padrões arquiteturais mais usados." },
+        { question: "Na Clean Architecture, as dependências apontam para:", options: ["As camadas externas", "As camadas internas (regras de negócio)", "O banco de dados", "A interface do usuário"], correctIndex: 1, explanation: "Na Clean Architecture, as dependências sempre apontam para dentro — as regras de negócio não dependem de nada externo." },
+        { question: "Microserviços são:", options: ["Uma aplicação monolítica grande", "Serviços independentes e distribuídos", "Um tipo de banco de dados", "Uma linguagem de programação"], correctIndex: 1, explanation: "Microserviços são serviços pequenos e independentes que se comunicam entre si." },
+      ],
     },
   },
 };
@@ -416,6 +476,12 @@ export default function Lesson() {
       description: "Excelente trabalho! Sua lógica está compilando perfeitamente! Continue assim!",
       duration: 6000,
     });
+  };
+
+  const handleQuizComplete = (score: number, total: number) => {
+    if (score === total) {
+      completeLesson();
+    }
   };
 
   return (
@@ -471,6 +537,11 @@ export default function Lesson() {
               </p>
               <p className="text-foreground/80 text-sm italic">"{lesson.diogenesTip}"</p>
             </div>
+          </div>
+
+          {/* Quiz */}
+          <div className="mb-8">
+            <LessonQuiz questions={lesson.quiz} onComplete={handleQuizComplete} />
           </div>
 
           {/* Challenge */}
