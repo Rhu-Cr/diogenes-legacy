@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle, Code, Lightbulb } from "lucide-react";
 import { toast } from "sonner";
 import diogenesImg from "@/assets/diogenes.png";
+import { LessonQuiz, type QuizQuestion } from "@/components/LessonQuiz";
 
 interface LessonData {
   title: string;
@@ -16,6 +17,7 @@ interface LessonData {
   codeExample: string;
   challenge: string;
   diogenesTip: string;
+  quiz: QuizQuestion[];
 }
 
 const lessons: Record<string, Record<string, LessonData>> = {
