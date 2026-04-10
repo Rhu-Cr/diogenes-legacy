@@ -2,6 +2,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
+import { useProgress } from "@/hooks/useProgress";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -553,7 +554,7 @@ export default function Lesson() {
               <p className="text-foreground/80 mb-4">{lesson.challenge}</p>
               {!completed ? (
                 <Button
-                  onClick={completeLesson}
+                  onClick={() => handleCompleteLesson()}
                   className="bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 gap-2"
                 >
                   <CheckCircle className="h-4 w-4" />
