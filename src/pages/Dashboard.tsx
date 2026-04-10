@@ -172,7 +172,7 @@ export default function Dashboard() {
                   <Trophy className="h-6 w-6 text-accent" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold font-heading text-foreground">{completedLessonIds.length * 50}</p>
+                  <p className="text-2xl font-bold font-heading text-foreground">{totalLessonPoints + totalChallengePoints}</p>
                   <p className="text-sm text-muted-foreground">Pontos</p>
                 </div>
               </CardContent>
