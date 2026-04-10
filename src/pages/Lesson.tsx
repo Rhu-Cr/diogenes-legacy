@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useProgress } from "@/hooks/useProgress";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
@@ -443,16 +443,13 @@ export default function Lesson() {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-  const [completed, setCompleted] = useState(false);
+  const { isLessonCompleted, completeLesson: saveLessonProgress } = useProgress();
+  const lessonKey = `${pathId}-${lessonId}`;
+  const completed = isLessonCompleted(lessonKey);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
   }, [user, authLoading, navigate]);
-
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("completed_lessons") || "[]");
-    if (saved.includes(`${pathId}-${lessonId}`)) setCompleted(true);
-  }, [pathId, lessonId]);
 
   if (authLoading || !user) return null;
 
@@ -465,14 +462,8 @@ export default function Lesson() {
     );
   }
 
-  const completeLesson = () => {
-    const key = `${pathId}-${lessonId}`;
-    const saved = JSON.parse(localStorage.getItem("completed_lessons") || "[]");
-    if (!saved.includes(key)) {
-      saved.push(key);
-      localStorage.setItem("completed_lessons", JSON.stringify(saved));
-    }
-    setCompleted(true);
+  const handleCompleteLesson = async (score = 0, total = 0) => {
+    await saveLessonProgress(lessonKey, score, total);
     toast("🎉 Prof. Diógenes diz:", {
       description: "Excelente trabalho! Sua lógica está compilando perfeitamente! Continue assim!",
       duration: 6000,
@@ -481,7 +472,7 @@ export default function Lesson() {
 
   const handleQuizComplete = (score: number, total: number) => {
     if (score === total) {
-      completeLesson();
+      handleCompleteLesson(score, total);
     }
   };
 
