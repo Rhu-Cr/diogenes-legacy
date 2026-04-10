@@ -161,7 +161,7 @@ export default function Dashboard() {
                   <BookOpen className="h-6 w-6 text-progress" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold font-heading text-foreground">{completedLessons.length}/{totalModules}</p>
+                  <p className="text-2xl font-bold font-heading text-foreground">{completedLessonIds.length}/{totalModules}</p>
                   <p className="text-sm text-muted-foreground">Aulas Concluídas</p>
                 </div>
               </CardContent>
@@ -172,7 +172,7 @@ export default function Dashboard() {
                   <Trophy className="h-6 w-6 text-accent" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold font-heading text-foreground">{completedLessons.length * 50}</p>
+                  <p className="text-2xl font-bold font-heading text-foreground">{completedLessonIds.length * 50}</p>
                   <p className="text-sm text-muted-foreground">Pontos</p>
                 </div>
               </CardContent>
@@ -184,7 +184,7 @@ export default function Dashboard() {
           <div className="grid md:grid-cols-3 gap-6">
             {paths.map((path) => {
               const pathCompleted = path.modules.filter((m) =>
-                completedLessons.includes(`${path.id}-${m.id}`)
+                completedLessonIds.includes(`${path.id}-${m.id}`)
               ).length;
               const pathProgress = Math.round((pathCompleted / path.modules.length) * 100);
 
@@ -211,7 +211,7 @@ export default function Dashboard() {
                     <div className="space-y-2">
                       {path.modules.map((mod) => {
                         const lessonId = `${path.id}-${mod.id}`;
-                        const done = completedLessons.includes(lessonId);
+                        const done = completedLessonIds.includes(lessonId);
                         return (
                           <Link
                             key={mod.id}
