@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Trophy, Clock, Play, RotateCcw, CheckCircle, Star, Lightbulb, Send } from "lucide-react";
 import { toast } from "sonner";
 import diogenesImg from "@/assets/diogenes.png";
+import { useProgress } from "@/hooks/useProgress";
 
 interface ChallengeData {
   title: string;
@@ -168,6 +169,7 @@ const Challenge = () => {
   const { challengeId } = useParams();
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { completeChallenge: saveChallengeProgress, getChallengeProgress } = useProgress();
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [timeLeft, setTimeLeft] = useState(0);
@@ -248,13 +250,8 @@ const Challenge = () => {
         const penalty = hintsUsed * 10;
         const finalPoints = Math.max(challenge.points - penalty, Math.floor(challenge.points * 0.5));
 
-        const completedChallenges = JSON.parse(localStorage.getItem("completedChallenges") || "{}");
-        completedChallenges[challengeId!] = {
-          points: finalPoints,
-          hintsUsed,
-          completedAt: new Date().toISOString(),
-        };
-        localStorage.setItem("completedChallenges", JSON.stringify(completedChallenges));
+        const elapsedSeconds = challenge.timeMinutes * 60 - timeLeft;
+        saveChallengeProgress(challengeId!, finalPoints, elapsedSeconds);
 
         toast.success(`🏆 Desafio concluído! Você ganhou ${finalPoints} pontos!`);
       }

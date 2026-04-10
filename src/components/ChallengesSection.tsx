@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useProgress } from "@/hooks/useProgress";
 
 const challenges = [
   {
@@ -43,12 +43,7 @@ const difficultyColors: Record<string, string> = {
 
 export function ChallengesSection() {
   const navigate = useNavigate();
-  const [completedChallenges, setCompletedChallenges] = useState<Record<string, { points: number }>>({});
-
-  useEffect(() => {
-    const stored = localStorage.getItem("completedChallenges");
-    if (stored) setCompletedChallenges(JSON.parse(stored));
-  }, []);
+  const { getChallengeProgress } = useProgress();
 
   return (
     <section id="desafios" className="py-20 bg-muted/50" aria-labelledby="challenges-heading">
@@ -92,15 +87,18 @@ export function ChallengesSection() {
                     </span>
                   </div>
                 </div>
-                {completedChallenges[challenge.id] ? (
-                  <Button className="w-full mt-4" size="sm" variant="outline" onClick={() => navigate(`/desafio/${challenge.id}`)}>
-                    <CheckCircle className="h-4 w-4 mr-1 text-success" /> Concluído — {completedChallenges[challenge.id].points} pts
-                  </Button>
-                ) : (
-                  <Button className="w-full mt-4 bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 transition-opacity" size="sm" onClick={() => navigate(`/desafio/${challenge.id}`)}>
-                    Aceitar Desafio
-                  </Button>
-                )}
+                {(() => {
+                  const progress = getChallengeProgress(challenge.id);
+                  return progress ? (
+                    <Button className="w-full mt-4" size="sm" variant="outline" onClick={() => navigate(`/desafio/${challenge.id}`)}>
+                      <CheckCircle className="h-4 w-4 mr-1 text-success" /> Concluído — {progress.points} pts
+                    </Button>
+                  ) : (
+                    <Button className="w-full mt-4 bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 transition-opacity" size="sm" onClick={() => navigate(`/desafio/${challenge.id}`)}>
+                      Aceitar Desafio
+                    </Button>
+                  );
+                })()}
               </CardContent>
             </Card>
           ))}
