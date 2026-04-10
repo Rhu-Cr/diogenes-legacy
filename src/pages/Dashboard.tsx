@@ -1,6 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Code, Database, Layers, LogOut, BookOpen, Trophy, TrendingUp } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { toast } from "sonner";
+import { useProgress } from "@/hooks/useProgress";
 
 const diogenesMessages = [
   "Que bom ver você por aqui! Vamos aprender algo novo hoje? 🚀",
@@ -73,19 +74,13 @@ const levelColors: Record<string, string> = {
 export default function Dashboard() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
-  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+  const { completedLessonIds, totalLessonPoints, totalChallengePoints } = useProgress();
 
   useEffect(() => {
     if (!loading && !user) {
       navigate("/auth");
     }
   }, [user, loading, navigate]);
-
-  useEffect(() => {
-    // Load completed lessons from localStorage (will migrate to DB)
-    const saved = localStorage.getItem("completed_lessons");
-    if (saved) setCompletedLessons(JSON.parse(saved));
-  }, []);
 
   useEffect(() => {
     if (user) {
@@ -101,7 +96,7 @@ export default function Dashboard() {
   if (!user) return null;
 
   const totalModules = paths.reduce((acc, p) => acc + p.modules.length, 0);
-  const totalProgress = totalModules > 0 ? Math.round((completedLessons.length / totalModules) * 100) : 0;
+  const totalProgress = totalModules > 0 ? Math.round((completedLessonIds.length / totalModules) * 100) : 0;
 
   const handleSignOut = async () => {
     await signOut();
