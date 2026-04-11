@@ -979,6 +979,7 @@ export default function Lesson() {
         </div>
       </main>
       <Footer />
+      <GlossarySidebar />
       <DiogenesChatbot />
     </div>
   );
