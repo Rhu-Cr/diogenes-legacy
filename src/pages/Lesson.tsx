@@ -11,6 +11,7 @@ import { ArrowLeft, CheckCircle, Code, Lightbulb } from "lucide-react";
 import { toast } from "sonner";
 import diogenesImg from "@/assets/diogenes.png";
 import { LessonQuiz, type QuizQuestion } from "@/components/LessonQuiz";
+import { GlossarySidebar } from "@/components/GlossarySidebar";
 
 interface LessonData {
   title: string;
@@ -978,6 +979,7 @@ export default function Lesson() {
         </div>
       </main>
       <Footer />
+      <GlossarySidebar />
       <DiogenesChatbot />
     </div>
   );
