@@ -136,10 +136,18 @@ export default function Dashboard() {
                 Olá, <span className="font-medium text-foreground">{user.email}</span>! Pronto para aprender?
               </p>
             </div>
-            <Button variant="outline" onClick={handleSignOut} className="gap-2">
-              <LogOut className="h-4 w-4" />
-              Sair
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" asChild className="gap-2">
+                <Link to="/glossario">
+                  <BookOpen className="h-4 w-4" />
+                  Glossário
+                </Link>
+              </Button>
+              <Button variant="outline" onClick={handleSignOut} className="gap-2">
+                <LogOut className="h-4 w-4" />
+                Sair
+              </Button>
+            </div>
           </div>
 
           {/* Stats */}
