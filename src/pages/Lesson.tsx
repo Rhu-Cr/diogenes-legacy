@@ -6,6 +6,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle, Code, Lightbulb } from "lucide-react";
 import { toast } from "sonner";
