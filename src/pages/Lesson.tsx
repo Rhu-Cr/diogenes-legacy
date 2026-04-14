@@ -1142,8 +1142,15 @@ export default function Lesson() {
             <span className="text-foreground font-medium">{lesson.title}</span>
           </div>
 
-          {/* Title */}
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-8">{lesson.title}</h1>
+          {/* Title + Difficulty */}
+          <div className="flex items-center gap-3 mb-8 flex-wrap">
+            <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">{lesson.title}</h1>
+            <Badge variant="outline" className={
+              lesson.difficulty === "Iniciante" ? "bg-progress/10 text-progress border-progress/20" :
+              lesson.difficulty === "Intermediário" ? "bg-accent/10 text-accent border-accent/20" :
+              "bg-primary/10 text-primary border-primary/20"
+            }>{lesson.difficulty}</Badge>
+          </div>
 
           {/* Content */}
           <div className="prose prose-lg max-w-none mb-8">
