@@ -74,6 +74,12 @@ const levelColors: Record<string, string> = {
   Avançado: "bg-primary/10 text-primary border-primary/20",
 };
 
+const difficultyDot: Record<string, string> = {
+  Iniciante: "bg-progress",
+  Intermediário: "bg-accent",
+  Avançado: "bg-primary",
+};
+
 export default function Dashboard() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
