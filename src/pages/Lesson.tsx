@@ -13,8 +13,11 @@ import diogenesImg from "@/assets/diogenes.png";
 import { LessonQuiz, type QuizQuestion } from "@/components/LessonQuiz";
 import { GlossarySidebar } from "@/components/GlossarySidebar";
 
+type DifficultyLevel = "Iniciante" | "Intermediário" | "Avançado";
+
 interface LessonData {
   title: string;
+  difficulty: DifficultyLevel;
   content: string;
   codeExample: string;
   challenge: string;
