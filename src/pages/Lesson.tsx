@@ -70,6 +70,225 @@ console.log(encontrarMaior([1]));               // 1 (só tem um!)`,
         { question: "Qual é a saída de encontrarMaior([3, 7, 2, 9, 1])?", options: ["3", "7", "9", "1"], correctIndex: 2, explanation: "O algoritmo percorre o array comparando cada número e retorna o maior valor, que é 9." },
       ],
     },
+    variaveis: {
+      title: "Variáveis e Tipos de Dados",
+      difficulty: "Iniciante",
+      content: `### 🎯 O que você vai aprender\nO que são variáveis, como guardar informações na memória do computador e quais tipos de dados existem. É como aprender a usar caixas organizadoras!\n\n### 📋 Pré-requisitos\nNenhum! Esta é uma das primeiras aulas — vamos começar do zero.\n\n### 📦 O que é uma Variável?\nUma **variável** é como uma **caixa com etiqueta**. Você guarda um valor dentro e dá um nome para lembrar o que está ali.\n\n**Exemplo do dia a dia:**\n- Caixa etiquetada "nome" → guarda "Maria"\n- Caixa etiquetada "idade" → guarda 25\n- Caixa etiquetada "aprovado" → guarda true (sim)\n\n### 🏷️ Declarando variáveis em JavaScript\nExistem 3 formas:\n- **let** — Pode mudar o valor depois (a mais usada!)\n- **const** — NÃO pode mudar (valor fixo, constante)\n- **var** — Forma antiga, evite usar\n\n### 📊 Tipos de Dados\nAssim como caixas podem guardar tipos diferentes de coisas, variáveis guardam tipos diferentes de dados:\n\n1. **String** (texto): "Olá, mundo!" — sempre entre aspas\n2. **Number** (número): 42, 3.14 — inteiros e decimais\n3. **Boolean** (verdadeiro/falso): true ou false — como um interruptor\n4. **Null** (nulo): Intencionalmente vazio — "a caixa existe, mas está vazia de propósito"\n5. **Undefined** (indefinido): Nunca recebeu valor — "a caixa existe, mas ninguém colocou nada"\n6. **Array** (lista): [1, 2, 3] — uma caixa com vários compartimentos\n7. **Object** (objeto): { nome: "Ana", idade: 20 } — caixa com sub-etiquetas\n\n### ⚠️ Erros comuns de iniciantes\n- Esquecer de declarar a variável\n- Confundir = (atribuição) com === (comparação)\n- Usar const e tentar mudar o valor\n- Esquecer as aspas em strings`,
+      codeExample: `// ========================================
+// VARIÁVEIS — Entendendo cada tipo
+// ========================================
+
+// --- LET: valor que pode mudar ---
+let nome = "Maria";         // String (texto)
+let idade = 25;              // Number (número)
+let aprovada = true;         // Boolean (verdadeiro/falso)
+
+console.log(nome);     // "Maria"
+console.log(idade);    // 25
+console.log(aprovada); // true
+
+// Mudando o valor (let permite!)
+nome = "Ana";
+idade = 26;
+console.log(nome);  // "Ana" — mudou!
+
+// --- CONST: valor fixo, nunca muda ---
+const PI = 3.14159;
+const GRAVIDADE = 9.8;
+// PI = 3.15; ← ❌ ERRO! Const não pode mudar!
+
+// --- TIPOS DE DADOS ---
+let texto = "Olá, mundo!";       // String
+let numero = 42;                  // Number (inteiro)
+let decimal = 3.14;               // Number (decimal)
+let ligado = false;               // Boolean
+let vazio = null;                 // Null (vazio de propósito)
+let indefinido;                   // Undefined (sem valor)
+
+// Verificando o tipo com typeof:
+console.log(typeof texto);       // "string"
+console.log(typeof numero);      // "number"
+console.log(typeof ligado);      // "boolean"
+console.log(typeof indefinido);  // "undefined"
+
+// --- ARRAY: lista de valores ---
+let frutas = ["maçã", "banana", "laranja"];
+console.log(frutas[0]);   // "maçã" (primeiro item, índice 0!)
+console.log(frutas[2]);   // "laranja"
+console.log(frutas.length); // 3 (quantos itens tem)
+
+// --- OBJETO: dados organizados ---
+let aluno = {
+  nome: "Carlos",
+  idade: 20,
+  curso: "Ciência da Computação"
+};
+console.log(aluno.nome);   // "Carlos"
+console.log(aluno.curso);  // "Ciência da Computação"`,
+      challenge: "Crie um objeto 'perfil' com seu nome, idade, linguagem favorita e se está estudando (boolean). Depois, mude a linguagem favorita e imprima o perfil completo.",
+      diogenesTip: "Variáveis são a base de TUDO na programação. Se você entende caixas com etiquetas, já entende variáveis. É simples assim! 📦",
+      quiz: [
+        { question: "Qual a diferença entre let e const?", options: ["Não há diferença", "let pode mudar o valor, const não pode", "const é mais rápido", "let é antigo, const é novo"], correctIndex: 1, explanation: "let permite reatribuir valores, const cria valores constantes que não podem mudar." },
+        { question: "Qual o tipo de dado de \"Olá, mundo!\"?", options: ["Number", "Boolean", "String", "Object"], correctIndex: 2, explanation: "Textos entre aspas são do tipo String — representam texto/caracteres." },
+        { question: "Em um array ['a', 'b', 'c'], qual índice tem o 'a'?", options: ["1", "0", "3", "-1"], correctIndex: 1, explanation: "Arrays começam no índice 0! Então o primeiro item está na posição 0." },
+      ],
+    },
+    condicionais: {
+      title: "Condicionais (If/Else)",
+      difficulty: "Iniciante",
+      content: `### 🎯 O que você vai aprender\nComo fazer o computador tomar decisões! Com condicionais, seu programa pode escolher caminhos diferentes dependendo da situação.\n\n### 📋 Pré-requisitos\n- Saber o que são variáveis (aula anterior)\n- Entender tipos boolean (true/false)\n\n### 🚦 O que são Condicionais?\nCondicionais são como **semáforos**: dependendo da cor (condição), você faz uma coisa diferente.\n\n**No dia a dia você já usa condicionais:**\n- SE está chovendo → levo guarda-chuva\n- SE tenho dinheiro → compro lanche | SENÃO → levo de casa\n- SE é fim de semana → durmo até tarde | SENÃO → acordo cedo\n\n### 📝 Estrutura do IF/ELSE\n- **if** (se): Verifica uma condição\n- **else if** (senão se): Verifica outra condição\n- **else** (senão): Quando nenhuma condição anterior foi verdadeira\n\n### ⚖️ Operadores de Comparação\n- **===** → É igual a? (use sempre 3 sinais!)\n- **!==** → É diferente de?\n- **>** → É maior que?\n- **<** → É menor que?\n- **>=** → É maior ou igual?\n- **<=** → É menor ou igual?\n\n### 🔗 Operadores Lógicos\n- **&&** (E): As DUAS condições precisam ser verdadeiras\n- **||** (OU): PELO MENOS UMA precisa ser verdadeira\n- **!** (NÃO): Inverte o valor (true vira false)\n\n### 🎯 Switch/Case\nQuando você tem MUITAS opções para verificar, o switch é mais organizado que vários if/else.`,
+      codeExample: `// ========================================
+// CONDICIONAIS — Tomando decisões
+// ========================================
+
+// --- IF simples ---
+let temperatura = 35;
+
+if (temperatura > 30) {
+  console.log("🥵 Está muito quente! Beba água!");
+}
+
+// --- IF/ELSE ---
+let idade = 17;
+
+if (idade >= 18) {
+  console.log("✅ Pode dirigir!");
+} else {
+  console.log("❌ Ainda não pode dirigir.");
+  console.log(\`Faltam \${18 - idade} ano(s)!\`);
+}
+// Resultado: "❌ Ainda não pode dirigir. Faltam 1 ano(s)!"
+
+// --- IF/ELSE IF/ELSE ---
+let nota = 7.5;
+
+if (nota >= 9) {
+  console.log("🏆 Conceito A — Excelente!");
+} else if (nota >= 7) {
+  console.log("👍 Conceito B — Bom!");
+} else if (nota >= 5) {
+  console.log("😐 Conceito C — Regular");
+} else {
+  console.log("😟 Conceito D — Precisa melhorar");
+}
+// Resultado: "👍 Conceito B — Bom!"
+
+// --- OPERADORES LÓGICOS ---
+let temCarteira = true;
+let idadeMotorista = 20;
+
+// E (&&): as DUAS precisam ser true
+if (idadeMotorista >= 18 && temCarteira) {
+  console.log("🚗 Pode dirigir!");
+}
+
+// OU (||): pelo menos UMA precisa ser true
+let fimDeSemana = false;
+let feriado = true;
+
+if (fimDeSemana || feriado) {
+  console.log("😴 Pode dormir até tarde!");
+}
+
+// --- SWITCH/CASE ---
+let diaDaSemana = "segunda";
+
+switch (diaDaSemana) {
+  case "segunda":
+  case "terça":
+  case "quarta":
+  case "quinta":
+  case "sexta":
+    console.log("📚 Dia de estudar!");
+    break;
+  case "sábado":
+  case "domingo":
+    console.log("🎮 Dia de descansar!");
+    break;
+  default:
+    console.log("🤔 Dia inválido");
+}`,
+      challenge: "Crie um programa que recebe a idade de uma pessoa e diz: se pode votar (>= 16), se o voto é obrigatório (18-69), e se pode se candidatar a presidente (>= 35).",
+      diogenesTip: "Condicionais são o cérebro do seu programa — sem elas, o código faria sempre a mesma coisa! Lembre-se: use === (3 sinais) para comparar, não = (1 sinal)!",
+      quiz: [
+        { question: "O que o operador && (E) exige?", options: ["Pelo menos uma condição verdadeira", "As duas condições precisam ser verdadeiras", "Nenhuma condição verdadeira", "Apenas a primeira verdadeira"], correctIndex: 1, explanation: "O operador && (E lógico) só retorna true se AMBAS as condições forem verdadeiras." },
+        { question: "Qual a diferença entre = e ===?", options: ["Não há diferença", "= atribui valor, === compara valores", "=== atribui valor, = compara", "= é mais rápido"], correctIndex: 1, explanation: "= é atribuição (nome = 'Ana'), === é comparação (nome === 'Ana'). Confundir é um erro muito comum!" },
+        { question: "Quando usar switch ao invés de if/else?", options: ["Sempre", "Quando tem muitas opções para comparar com um mesmo valor", "Nunca", "Apenas com números"], correctIndex: 1, explanation: "Switch é mais organizado quando você compara o MESMO valor com várias opções possíveis." },
+      ],
+    },
+    loops: {
+      title: "Loops (Repetição)",
+      difficulty: "Iniciante",
+      content: `### 🎯 O que você vai aprender\nComo fazer o computador repetir tarefas automaticamente! Loops evitam que você escreva o mesmo código 100 vezes.\n\n### 📋 Pré-requisitos\n- Saber o que são variáveis\n- Entender condicionais (if/else)\n\n### 🔄 O que são Loops?\nLoops são como uma **máquina de lavar**: ela repete o ciclo (lavar, enxaguar, centrifugar) até a roupa ficar limpa.\n\n**Sem loop (repetindo manualmente):**\nconsole.log("Olá 1"); console.log("Olá 2"); console.log("Olá 3")... 😫\n\n**Com loop (automático):**\nRepita 100 vezes: console.log("Olá " + i); 🎉\n\n### 📝 Tipos de Loop\n\n**1. FOR — Quando você sabe quantas vezes repetir**\nEstrutura: for (início; condição; incremento)\n- início: let i = 0 (começa do zero)\n- condição: i < 10 (enquanto i for menor que 10)\n- incremento: i++ (aumenta 1 a cada rodada)\n\n**2. WHILE — Enquanto uma condição for verdadeira**\nÚtil quando NÃO sabe quantas vezes vai repetir.\n- Ex: "enquanto o usuário não acertar a senha, peça de novo"\n\n**3. DO...WHILE — Executa pelo menos UMA vez**\nIgual ao while, mas verifica a condição DEPOIS de executar.\n\n**4. FOR...OF — Percorre cada item de uma lista**\nA forma mais simples de percorrer arrays!\n\n### ⚠️ Cuidado: Loop Infinito!\nSe a condição NUNCA se torna falsa, o loop roda para sempre e trava o programa!\n- ❌ while (true) { } → nunca para!\n- ✅ Sempre garanta que a condição vai parar em algum momento`,
+      codeExample: `// ========================================
+// LOOPS — Repetindo tarefas
+// ========================================
+
+// --- FOR: quando sabe quantas vezes ---
+console.log("--- Contando de 1 a 5 ---");
+for (let i = 1; i <= 5; i++) {
+  console.log(\`Número: \${i}\`);
+}
+// Número: 1, 2, 3, 4, 5
+
+// --- Percorrendo um array com FOR ---
+let frutas = ["🍎 Maçã", "🍌 Banana", "🍊 Laranja"];
+
+console.log("\\n--- Lista de frutas ---");
+for (let i = 0; i < frutas.length; i++) {
+  console.log(\`\${i + 1}. \${frutas[i]}\`);
+}
+
+// --- FOR...OF: forma mais simples para arrays ---
+console.log("\\n--- Com for...of ---");
+for (let fruta of frutas) {
+  console.log(\`Fruta: \${fruta}\`);
+}
+
+// --- WHILE: quando NÃO sabe quantas vezes ---
+console.log("\\n--- Dobrando até passar de 100 ---");
+let valor = 1;
+let rodadas = 0;
+
+while (valor <= 100) {
+  valor = valor * 2;  // Dobra o valor
+  rodadas++;
+  console.log(\`Rodada \${rodadas}: valor = \${valor}\`);
+}
+console.log(\`Passou de 100 em \${rodadas} rodadas!\`);
+
+// --- DO...WHILE: executa pelo menos 1 vez ---
+console.log("\\n--- Menu (sempre mostra 1 vez) ---");
+let opcao = 0;
+do {
+  console.log("1. Jogar");
+  console.log("2. Opções");
+  console.log("3. Sair");
+  opcao = 3; // Simula o usuário escolhendo "Sair"
+} while (opcao !== 3);
+console.log("Saindo do menu...");
+
+// --- Exemplo prático: somar notas ---
+console.log("\\n--- Calculando média ---");
+let notas = [8, 7, 9, 6, 10];
+let soma = 0;
+
+for (let nota of notas) {
+  soma += nota;  // soma = soma + nota
+}
+
+let media = soma / notas.length;
+console.log(\`Soma: \${soma}\`);      // 40
+console.log(\`Média: \${media}\`);    // 8
+console.log(media >= 7 ? "✅ Aprovado!" : "❌ Reprovado");`,
+      challenge: "Use um loop para encontrar todos os números pares de 1 a 50 e calcule a soma deles. Dica: um número é par quando numero % 2 === 0.",
+      diogenesTip: "Loops são o superpoder da programação! Imagine ter que escrever 1000 linhas manualmente... Com um loop, você faz em 3 linhas. Trabalhe de forma inteligente! 🧠",
+      quiz: [
+        { question: "Quando usar FOR ao invés de WHILE?", options: ["Quando não sabe quantas vezes repetir", "Quando sabe exatamente quantas vezes repetir", "Nunca", "Apenas com strings"], correctIndex: 1, explanation: "Use FOR quando sabe o número de repetições (ex: percorrer array). Use WHILE quando depende de uma condição." },
+        { question: "O que acontece em um loop infinito?", options: ["O programa fica mais rápido", "O programa trava porque a condição nunca se torna falsa", "Nada acontece", "O programa para sozinho"], correctIndex: 1, explanation: "Se a condição do loop nunca for falsa, ele repete para sempre e trava o programa!" },
+        { question: "Qual loop é melhor para percorrer arrays?", options: ["while", "do...while", "for...of", "switch"], correctIndex: 2, explanation: "for...of é a forma mais simples e direta de percorrer cada item de um array." },
+      ],
+    },
     busca: {
       title: "Algoritmos de Busca",
       difficulty: "Intermediário",
