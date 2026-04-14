@@ -28,10 +28,13 @@ const paths = [
     description: "Busca, ordenação, recursão e programação dinâmica.",
     level: "Iniciante",
     modules: [
-      { id: "intro", title: "Introdução a Algoritmos", duration: "15 min" },
-      { id: "busca", title: "Algoritmos de Busca", duration: "20 min" },
-      { id: "ordenacao", title: "Algoritmos de Ordenação", duration: "25 min" },
-      { id: "recursao", title: "Recursão", duration: "20 min" },
+      { id: "intro", title: "Introdução a Algoritmos", duration: "15 min", difficulty: "Iniciante" },
+      { id: "variaveis", title: "Variáveis e Tipos de Dados", duration: "15 min", difficulty: "Iniciante" },
+      { id: "condicionais", title: "Condicionais (If/Else)", duration: "15 min", difficulty: "Iniciante" },
+      { id: "loops", title: "Loops (Repetição)", duration: "15 min", difficulty: "Iniciante" },
+      { id: "busca", title: "Algoritmos de Busca", duration: "20 min", difficulty: "Intermediário" },
+      { id: "ordenacao", title: "Algoritmos de Ordenação", duration: "25 min", difficulty: "Intermediário" },
+      { id: "recursao", title: "Recursão", duration: "20 min", difficulty: "Avançado" },
     ],
     color: "text-accent",
   },
@@ -42,10 +45,10 @@ const paths = [
     description: "Listas, pilhas, filas, árvores e grafos.",
     level: "Intermediário",
     modules: [
-      { id: "listas", title: "Listas Encadeadas", duration: "20 min" },
-      { id: "pilhas", title: "Pilhas e Filas", duration: "15 min" },
-      { id: "arvores", title: "Árvores Binárias", duration: "25 min" },
-      { id: "grafos", title: "Grafos", duration: "30 min" },
+      { id: "listas", title: "Listas Encadeadas", duration: "20 min", difficulty: "Intermediário" },
+      { id: "pilhas", title: "Pilhas e Filas", duration: "15 min", difficulty: "Intermediário" },
+      { id: "arvores", title: "Árvores Binárias", duration: "25 min", difficulty: "Avançado" },
+      { id: "grafos", title: "Grafos", duration: "30 min", difficulty: "Avançado" },
     ],
     color: "text-progress",
   },
@@ -56,10 +59,10 @@ const paths = [
     description: "Padrões de projeto, arquitetura e boas práticas.",
     level: "Avançado",
     modules: [
-      { id: "solid", title: "Princípios SOLID", duration: "20 min" },
-      { id: "padroes", title: "Padrões de Projeto", duration: "25 min" },
-      { id: "testes", title: "Testes de Software", duration: "20 min" },
-      { id: "arquitetura", title: "Arquitetura de Software", duration: "30 min" },
+      { id: "solid", title: "Princípios SOLID", duration: "20 min", difficulty: "Avançado" },
+      { id: "padroes", title: "Padrões de Projeto", duration: "25 min", difficulty: "Avançado" },
+      { id: "testes", title: "Testes de Software", duration: "20 min", difficulty: "Intermediário" },
+      { id: "arquitetura", title: "Arquitetura de Software", duration: "30 min", difficulty: "Avançado" },
     ],
     color: "text-navy-light",
   },
@@ -69,6 +72,12 @@ const levelColors: Record<string, string> = {
   Iniciante: "bg-progress/10 text-progress border-progress/20",
   Intermediário: "bg-accent/10 text-accent border-accent/20",
   Avançado: "bg-primary/10 text-primary border-primary/20",
+};
+
+const difficultyDot: Record<string, string> = {
+  Iniciante: "bg-progress",
+  Intermediário: "bg-accent",
+  Avançado: "bg-primary",
 };
 
 export default function Dashboard() {
@@ -231,7 +240,10 @@ export default function Dashboard() {
                             <span className="flex items-center gap-2">
                               {done ? "✅" : "📖"} {mod.title}
                             </span>
-                            <span className="text-xs text-muted-foreground">{mod.duration}</span>
+                            <span className="flex items-center gap-2">
+                              <span className={`inline-block w-2 h-2 rounded-full ${difficultyDot[mod.difficulty] || "bg-muted-foreground"}`} title={mod.difficulty} />
+                              <span className="text-xs text-muted-foreground">{mod.duration}</span>
+                            </span>
                           </Link>
                         );
                       })}

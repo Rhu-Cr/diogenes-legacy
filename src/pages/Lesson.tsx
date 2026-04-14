@@ -6,6 +6,7 @@ import { useProgress } from "@/hooks/useProgress";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle, Code, Lightbulb } from "lucide-react";
 import { toast } from "sonner";
@@ -13,8 +14,11 @@ import diogenesImg from "@/assets/diogenes.png";
 import { LessonQuiz, type QuizQuestion } from "@/components/LessonQuiz";
 import { GlossarySidebar } from "@/components/GlossarySidebar";
 
+type DifficultyLevel = "Iniciante" | "Intermediário" | "Avançado";
+
 interface LessonData {
   title: string;
+  difficulty: DifficultyLevel;
   content: string;
   codeExample: string;
   challenge: string;
@@ -26,6 +30,7 @@ const lessons: Record<string, Record<string, LessonData>> = {
   algoritmos: {
     intro: {
       title: "Introdução a Algoritmos",
+      difficulty: "Iniciante",
       content: `### 🎯 O que você vai aprender\nNesta aula, você vai entender o que é um algoritmo e por que ele é a base de toda a programação. Não se preocupe se nunca programou antes — vamos começar do zero!\n\n### 📖 O que é um Algoritmo?\nUm **algoritmo** é simplesmente uma sequência de passos para resolver um problema. Você já usa algoritmos no dia a dia sem perceber!\n\n**Exemplo do cotidiano — Fazer um café:**\n1. Pegar a xícara\n2. Colocar água na chaleira\n3. Esquentar a água\n4. Colocar o pó de café no filtro\n5. Despejar a água quente\n6. Servir o café na xícara\n\nIsso é um algoritmo! Cada passo é claro, tem uma ordem, e no final você obtém o resultado.\n\n### ✅ Características de um bom algoritmo\n- **Finitude**: Deve terminar em algum momento (não pode rodar para sempre)\n- **Clareza**: Cada passo deve ser simples e sem dúvidas\n- **Entrada**: Os dados que o algoritmo recebe (ex: uma lista de números)\n- **Saída**: O resultado que ele produz (ex: o maior número)\n- **Efetividade**: Cada passo deve ser possível de executar\n\n### 🧠 Por que algoritmos são importantes?\nTodo programa de computador é, no fundo, um conjunto de algoritmos. Quando você pesquisa no Google, assiste um vídeo no YouTube ou pede comida por app — algoritmos estão trabalhando por trás!\n\n### 📝 Passo a passo para criar um algoritmo\n1. **Entenda o problema**: O que preciso resolver?\n2. **Identifique as entradas**: Quais dados eu tenho?\n3. **Defina a saída**: O que quero como resultado?\n4. **Escreva os passos**: Em português simples, descreva cada ação\n5. **Teste mentalmente**: Simule com exemplos para ver se funciona\n6. **Traduza para código**: Agora sim, programe!`,
       codeExample: `// PASSO A PASSO: Encontrar o maior número de uma lista
 // 
@@ -66,8 +71,228 @@ console.log(encontrarMaior([1]));               // 1 (só tem um!)`,
         { question: "Qual é a saída de encontrarMaior([3, 7, 2, 9, 1])?", options: ["3", "7", "9", "1"], correctIndex: 2, explanation: "O algoritmo percorre o array comparando cada número e retorna o maior valor, que é 9." },
       ],
     },
+    variaveis: {
+      title: "Variáveis e Tipos de Dados",
+      difficulty: "Iniciante",
+      content: `### 🎯 O que você vai aprender\nO que são variáveis, como guardar informações na memória do computador e quais tipos de dados existem. É como aprender a usar caixas organizadoras!\n\n### 📋 Pré-requisitos\nNenhum! Esta é uma das primeiras aulas — vamos começar do zero.\n\n### 📦 O que é uma Variável?\nUma **variável** é como uma **caixa com etiqueta**. Você guarda um valor dentro e dá um nome para lembrar o que está ali.\n\n**Exemplo do dia a dia:**\n- Caixa etiquetada "nome" → guarda "Maria"\n- Caixa etiquetada "idade" → guarda 25\n- Caixa etiquetada "aprovado" → guarda true (sim)\n\n### 🏷️ Declarando variáveis em JavaScript\nExistem 3 formas:\n- **let** — Pode mudar o valor depois (a mais usada!)\n- **const** — NÃO pode mudar (valor fixo, constante)\n- **var** — Forma antiga, evite usar\n\n### 📊 Tipos de Dados\nAssim como caixas podem guardar tipos diferentes de coisas, variáveis guardam tipos diferentes de dados:\n\n1. **String** (texto): "Olá, mundo!" — sempre entre aspas\n2. **Number** (número): 42, 3.14 — inteiros e decimais\n3. **Boolean** (verdadeiro/falso): true ou false — como um interruptor\n4. **Null** (nulo): Intencionalmente vazio — "a caixa existe, mas está vazia de propósito"\n5. **Undefined** (indefinido): Nunca recebeu valor — "a caixa existe, mas ninguém colocou nada"\n6. **Array** (lista): [1, 2, 3] — uma caixa com vários compartimentos\n7. **Object** (objeto): { nome: "Ana", idade: 20 } — caixa com sub-etiquetas\n\n### ⚠️ Erros comuns de iniciantes\n- Esquecer de declarar a variável\n- Confundir = (atribuição) com === (comparação)\n- Usar const e tentar mudar o valor\n- Esquecer as aspas em strings`,
+      codeExample: `// ========================================
+// VARIÁVEIS — Entendendo cada tipo
+// ========================================
+
+// --- LET: valor que pode mudar ---
+let nome = "Maria";         // String (texto)
+let idade = 25;              // Number (número)
+let aprovada = true;         // Boolean (verdadeiro/falso)
+
+console.log(nome);     // "Maria"
+console.log(idade);    // 25
+console.log(aprovada); // true
+
+// Mudando o valor (let permite!)
+nome = "Ana";
+idade = 26;
+console.log(nome);  // "Ana" — mudou!
+
+// --- CONST: valor fixo, nunca muda ---
+const PI = 3.14159;
+const GRAVIDADE = 9.8;
+// PI = 3.15; ← ❌ ERRO! Const não pode mudar!
+
+// --- TIPOS DE DADOS ---
+let texto = "Olá, mundo!";       // String
+let numero = 42;                  // Number (inteiro)
+let decimal = 3.14;               // Number (decimal)
+let ligado = false;               // Boolean
+let vazio = null;                 // Null (vazio de propósito)
+let indefinido;                   // Undefined (sem valor)
+
+// Verificando o tipo com typeof:
+console.log(typeof texto);       // "string"
+console.log(typeof numero);      // "number"
+console.log(typeof ligado);      // "boolean"
+console.log(typeof indefinido);  // "undefined"
+
+// --- ARRAY: lista de valores ---
+let frutas = ["maçã", "banana", "laranja"];
+console.log(frutas[0]);   // "maçã" (primeiro item, índice 0!)
+console.log(frutas[2]);   // "laranja"
+console.log(frutas.length); // 3 (quantos itens tem)
+
+// --- OBJETO: dados organizados ---
+let aluno = {
+  nome: "Carlos",
+  idade: 20,
+  curso: "Ciência da Computação"
+};
+console.log(aluno.nome);   // "Carlos"
+console.log(aluno.curso);  // "Ciência da Computação"`,
+      challenge: "Crie um objeto 'perfil' com seu nome, idade, linguagem favorita e se está estudando (boolean). Depois, mude a linguagem favorita e imprima o perfil completo.",
+      diogenesTip: "Variáveis são a base de TUDO na programação. Se você entende caixas com etiquetas, já entende variáveis. É simples assim! 📦",
+      quiz: [
+        { question: "Qual a diferença entre let e const?", options: ["Não há diferença", "let pode mudar o valor, const não pode", "const é mais rápido", "let é antigo, const é novo"], correctIndex: 1, explanation: "let permite reatribuir valores, const cria valores constantes que não podem mudar." },
+        { question: "Qual o tipo de dado de \"Olá, mundo!\"?", options: ["Number", "Boolean", "String", "Object"], correctIndex: 2, explanation: "Textos entre aspas são do tipo String — representam texto/caracteres." },
+        { question: "Em um array ['a', 'b', 'c'], qual índice tem o 'a'?", options: ["1", "0", "3", "-1"], correctIndex: 1, explanation: "Arrays começam no índice 0! Então o primeiro item está na posição 0." },
+      ],
+    },
+    condicionais: {
+      title: "Condicionais (If/Else)",
+      difficulty: "Iniciante",
+      content: `### 🎯 O que você vai aprender\nComo fazer o computador tomar decisões! Com condicionais, seu programa pode escolher caminhos diferentes dependendo da situação.\n\n### 📋 Pré-requisitos\n- Saber o que são variáveis (aula anterior)\n- Entender tipos boolean (true/false)\n\n### 🚦 O que são Condicionais?\nCondicionais são como **semáforos**: dependendo da cor (condição), você faz uma coisa diferente.\n\n**No dia a dia você já usa condicionais:**\n- SE está chovendo → levo guarda-chuva\n- SE tenho dinheiro → compro lanche | SENÃO → levo de casa\n- SE é fim de semana → durmo até tarde | SENÃO → acordo cedo\n\n### 📝 Estrutura do IF/ELSE\n- **if** (se): Verifica uma condição\n- **else if** (senão se): Verifica outra condição\n- **else** (senão): Quando nenhuma condição anterior foi verdadeira\n\n### ⚖️ Operadores de Comparação\n- **===** → É igual a? (use sempre 3 sinais!)\n- **!==** → É diferente de?\n- **>** → É maior que?\n- **<** → É menor que?\n- **>=** → É maior ou igual?\n- **<=** → É menor ou igual?\n\n### 🔗 Operadores Lógicos\n- **&&** (E): As DUAS condições precisam ser verdadeiras\n- **||** (OU): PELO MENOS UMA precisa ser verdadeira\n- **!** (NÃO): Inverte o valor (true vira false)\n\n### 🎯 Switch/Case\nQuando você tem MUITAS opções para verificar, o switch é mais organizado que vários if/else.`,
+      codeExample: `// ========================================
+// CONDICIONAIS — Tomando decisões
+// ========================================
+
+// --- IF simples ---
+let temperatura = 35;
+
+if (temperatura > 30) {
+  console.log("🥵 Está muito quente! Beba água!");
+}
+
+// --- IF/ELSE ---
+let idade = 17;
+
+if (idade >= 18) {
+  console.log("✅ Pode dirigir!");
+} else {
+  console.log("❌ Ainda não pode dirigir.");
+  console.log(\`Faltam \${18 - idade} ano(s)!\`);
+}
+// Resultado: "❌ Ainda não pode dirigir. Faltam 1 ano(s)!"
+
+// --- IF/ELSE IF/ELSE ---
+let nota = 7.5;
+
+if (nota >= 9) {
+  console.log("🏆 Conceito A — Excelente!");
+} else if (nota >= 7) {
+  console.log("👍 Conceito B — Bom!");
+} else if (nota >= 5) {
+  console.log("😐 Conceito C — Regular");
+} else {
+  console.log("😟 Conceito D — Precisa melhorar");
+}
+// Resultado: "👍 Conceito B — Bom!"
+
+// --- OPERADORES LÓGICOS ---
+let temCarteira = true;
+let idadeMotorista = 20;
+
+// E (&&): as DUAS precisam ser true
+if (idadeMotorista >= 18 && temCarteira) {
+  console.log("🚗 Pode dirigir!");
+}
+
+// OU (||): pelo menos UMA precisa ser true
+let fimDeSemana = false;
+let feriado = true;
+
+if (fimDeSemana || feriado) {
+  console.log("😴 Pode dormir até tarde!");
+}
+
+// --- SWITCH/CASE ---
+let diaDaSemana = "segunda";
+
+switch (diaDaSemana) {
+  case "segunda":
+  case "terça":
+  case "quarta":
+  case "quinta":
+  case "sexta":
+    console.log("📚 Dia de estudar!");
+    break;
+  case "sábado":
+  case "domingo":
+    console.log("🎮 Dia de descansar!");
+    break;
+  default:
+    console.log("🤔 Dia inválido");
+}`,
+      challenge: "Crie um programa que recebe a idade de uma pessoa e diz: se pode votar (>= 16), se o voto é obrigatório (18-69), e se pode se candidatar a presidente (>= 35).",
+      diogenesTip: "Condicionais são o cérebro do seu programa — sem elas, o código faria sempre a mesma coisa! Lembre-se: use === (3 sinais) para comparar, não = (1 sinal)!",
+      quiz: [
+        { question: "O que o operador && (E) exige?", options: ["Pelo menos uma condição verdadeira", "As duas condições precisam ser verdadeiras", "Nenhuma condição verdadeira", "Apenas a primeira verdadeira"], correctIndex: 1, explanation: "O operador && (E lógico) só retorna true se AMBAS as condições forem verdadeiras." },
+        { question: "Qual a diferença entre = e ===?", options: ["Não há diferença", "= atribui valor, === compara valores", "=== atribui valor, = compara", "= é mais rápido"], correctIndex: 1, explanation: "= é atribuição (nome = 'Ana'), === é comparação (nome === 'Ana'). Confundir é um erro muito comum!" },
+        { question: "Quando usar switch ao invés de if/else?", options: ["Sempre", "Quando tem muitas opções para comparar com um mesmo valor", "Nunca", "Apenas com números"], correctIndex: 1, explanation: "Switch é mais organizado quando você compara o MESMO valor com várias opções possíveis." },
+      ],
+    },
+    loops: {
+      title: "Loops (Repetição)",
+      difficulty: "Iniciante",
+      content: `### 🎯 O que você vai aprender\nComo fazer o computador repetir tarefas automaticamente! Loops evitam que você escreva o mesmo código 100 vezes.\n\n### 📋 Pré-requisitos\n- Saber o que são variáveis\n- Entender condicionais (if/else)\n\n### 🔄 O que são Loops?\nLoops são como uma **máquina de lavar**: ela repete o ciclo (lavar, enxaguar, centrifugar) até a roupa ficar limpa.\n\n**Sem loop (repetindo manualmente):**\nconsole.log("Olá 1"); console.log("Olá 2"); console.log("Olá 3")... 😫\n\n**Com loop (automático):**\nRepita 100 vezes: console.log("Olá " + i); 🎉\n\n### 📝 Tipos de Loop\n\n**1. FOR — Quando você sabe quantas vezes repetir**\nEstrutura: for (início; condição; incremento)\n- início: let i = 0 (começa do zero)\n- condição: i < 10 (enquanto i for menor que 10)\n- incremento: i++ (aumenta 1 a cada rodada)\n\n**2. WHILE — Enquanto uma condição for verdadeira**\nÚtil quando NÃO sabe quantas vezes vai repetir.\n- Ex: "enquanto o usuário não acertar a senha, peça de novo"\n\n**3. DO...WHILE — Executa pelo menos UMA vez**\nIgual ao while, mas verifica a condição DEPOIS de executar.\n\n**4. FOR...OF — Percorre cada item de uma lista**\nA forma mais simples de percorrer arrays!\n\n### ⚠️ Cuidado: Loop Infinito!\nSe a condição NUNCA se torna falsa, o loop roda para sempre e trava o programa!\n- ❌ while (true) { } → nunca para!\n- ✅ Sempre garanta que a condição vai parar em algum momento`,
+      codeExample: `// ========================================
+// LOOPS — Repetindo tarefas
+// ========================================
+
+// --- FOR: quando sabe quantas vezes ---
+console.log("--- Contando de 1 a 5 ---");
+for (let i = 1; i <= 5; i++) {
+  console.log(\`Número: \${i}\`);
+}
+// Número: 1, 2, 3, 4, 5
+
+// --- Percorrendo um array com FOR ---
+let frutas = ["🍎 Maçã", "🍌 Banana", "🍊 Laranja"];
+
+console.log("\\n--- Lista de frutas ---");
+for (let i = 0; i < frutas.length; i++) {
+  console.log(\`\${i + 1}. \${frutas[i]}\`);
+}
+
+// --- FOR...OF: forma mais simples para arrays ---
+console.log("\\n--- Com for...of ---");
+for (let fruta of frutas) {
+  console.log(\`Fruta: \${fruta}\`);
+}
+
+// --- WHILE: quando NÃO sabe quantas vezes ---
+console.log("\\n--- Dobrando até passar de 100 ---");
+let valor = 1;
+let rodadas = 0;
+
+while (valor <= 100) {
+  valor = valor * 2;  // Dobra o valor
+  rodadas++;
+  console.log(\`Rodada \${rodadas}: valor = \${valor}\`);
+}
+console.log(\`Passou de 100 em \${rodadas} rodadas!\`);
+
+// --- DO...WHILE: executa pelo menos 1 vez ---
+console.log("\\n--- Menu (sempre mostra 1 vez) ---");
+let opcao = 0;
+do {
+  console.log("1. Jogar");
+  console.log("2. Opções");
+  console.log("3. Sair");
+  opcao = 3; // Simula o usuário escolhendo "Sair"
+} while (opcao !== 3);
+console.log("Saindo do menu...");
+
+// --- Exemplo prático: somar notas ---
+console.log("\\n--- Calculando média ---");
+let notas = [8, 7, 9, 6, 10];
+let soma = 0;
+
+for (let nota of notas) {
+  soma += nota;  // soma = soma + nota
+}
+
+let media = soma / notas.length;
+console.log(\`Soma: \${soma}\`);      // 40
+console.log(\`Média: \${media}\`);    // 8
+console.log(media >= 7 ? "✅ Aprovado!" : "❌ Reprovado");`,
+      challenge: "Use um loop para encontrar todos os números pares de 1 a 50 e calcule a soma deles. Dica: um número é par quando numero % 2 === 0.",
+      diogenesTip: "Loops são o superpoder da programação! Imagine ter que escrever 1000 linhas manualmente... Com um loop, você faz em 3 linhas. Trabalhe de forma inteligente! 🧠",
+      quiz: [
+        { question: "Quando usar FOR ao invés de WHILE?", options: ["Quando não sabe quantas vezes repetir", "Quando sabe exatamente quantas vezes repetir", "Nunca", "Apenas com strings"], correctIndex: 1, explanation: "Use FOR quando sabe o número de repetições (ex: percorrer array). Use WHILE quando depende de uma condição." },
+        { question: "O que acontece em um loop infinito?", options: ["O programa fica mais rápido", "O programa trava porque a condição nunca se torna falsa", "Nada acontece", "O programa para sozinho"], correctIndex: 1, explanation: "Se a condição do loop nunca for falsa, ele repete para sempre e trava o programa!" },
+        { question: "Qual loop é melhor para percorrer arrays?", options: ["while", "do...while", "for...of", "switch"], correctIndex: 2, explanation: "for...of é a forma mais simples e direta de percorrer cada item de um array." },
+      ],
+    },
     busca: {
       title: "Algoritmos de Busca",
+      difficulty: "Intermediário",
       content: `### 🎯 O que você vai aprender\nComo encontrar um item específico dentro de uma lista de dados. Vamos ver duas formas: a simples e a inteligente!\n\n### 📋 Pré-requisitos\nAntes de começar, é bom que você saiba:\n- O que é um array (lista de dados)\n- O que é um loop/laço de repetição\n- Conceito básico de algoritmo (aula anterior)\n\n### 🔍 Busca Linear — A forma simples\nImagine que você perdeu suas chaves e precisa procurar em todas as gavetas, uma por uma, até encontrar. Isso é **busca linear**!\n\n**Como funciona:**\n1. Comece pelo primeiro elemento\n2. Compare com o que está procurando\n3. Se for igual, encontrou! Retorne a posição\n4. Se não, vá para o próximo\n5. Se chegou ao final sem encontrar, retorne "não encontrado"\n\n**Velocidade:** O(n) — no pior caso, olha todos os elementos\n\n### 🚀 Busca Binária — A forma inteligente\nAgora imagine que você está procurando uma palavra no dicionário. Você não começa da página 1, certo? Você abre no meio e vai direcionando!\n\n**Requisito importante:** A lista PRECISA estar ordenada (em ordem)!\n\n**Como funciona:**\n1. Olhe o elemento do meio da lista\n2. Se for o que procura, encontrou!\n3. Se o que procura é MENOR, descarte a metade direita\n4. Se o que procura é MAIOR, descarte a metade esquerda\n5. Repita com a metade restante\n\n**Velocidade:** O(log n) — muito mais rápido! Em uma lista de 1.000.000 de itens, precisa de apenas ~20 comparações!\n\n### 📊 Comparação\n- Lista com 100 itens: Linear = até 100 comparações | Binária = até 7\n- Lista com 1.000 itens: Linear = até 1.000 | Binária = até 10\n- Lista com 1.000.000: Linear = até 1.000.000 | Binária = até 20`,
       codeExample: `// ========================================
 // BUSCA LINEAR — passo a passo
@@ -129,6 +354,7 @@ console.log(buscaBinaria([1, 3, 5, 7, 9], 4)); // -1 (não existe)`,
     },
     ordenacao: {
       title: "Algoritmos de Ordenação",
+      difficulty: "Intermediário",
       content: `### 🎯 O que você vai aprender\nComo organizar dados em ordem (crescente ou decrescente). Ordenar é uma das tarefas mais importantes na computação!\n\n### 📋 Pré-requisitos\n- Saber o que são arrays\n- Entender loops e condições\n- Conceito de troca de valores entre variáveis\n\n### 🫧 Bubble Sort — Ordenação por bolha\nO algoritmo mais simples de entender! Imagine bolhas subindo na água — os maiores valores "sobem" para o final.\n\n**Como funciona (pense em cartas na mão):**\n1. Compare o 1º com o 2º elemento. Se estiverem fora de ordem, troque.\n2. Compare o 2º com o 3º. Se fora de ordem, troque.\n3. Continue até o final da lista.\n4. Repita tudo de novo (o maior já está no final, ignore ele).\n5. Continue até não precisar mais trocar.\n\n**Exemplo visual com [5, 3, 8, 1]:**\n- Rodada 1: [3, 5, 1, 8] → o 8 chegou ao final\n- Rodada 2: [3, 1, 5, 8] → o 5 está no lugar\n- Rodada 3: [1, 3, 5, 8] → ordenado!\n\n**Velocidade:** O(n²) — lento para listas grandes, mas ótimo para aprender!\n\n### ⚡ Quick Sort — Ordenação rápida\nMuito mais eficiente! Usa a estratégia "dividir para conquistar".\n\n**Como funciona:**\n1. Escolha um elemento como "pivô" (geralmente o último)\n2. Separe: menores que o pivô vão para a esquerda, maiores para a direita\n3. Repita o processo em cada metade\n4. Junte tudo!\n\n**Velocidade:** O(n log n) no caso médio — MUITO mais rápido!`,
       codeExample: `// ========================================
 // BUBBLE SORT — passo a passo explicado
@@ -173,6 +399,7 @@ console.log(bubbleSort([64, 34, 25, 12, 22]));
     },
     recursao: {
       title: "Recursão",
+      difficulty: "Avançado",
       content: `### 🎯 O que você vai aprender\nO conceito de recursão — quando uma função chama a si mesma. Parece estranho? Vamos simplificar!\n\n### 📋 Pré-requisitos\n- Saber criar funções\n- Entender retorno de funções\n- Conceito de condição (if/else)\n\n### 🪆 O que é Recursão?\nImagine bonecas russas (Matryoshka): você abre uma e dentro tem outra menor, que tem outra menor, até chegar na menorzinha que não abre mais.\n\n**Recursão é exatamente isso:** uma função que resolve um problema chamando a si mesma com um problema menor, até chegar no problema tão pequeno que a resposta é óbvia.\n\n### 🧩 Dois ingredientes obrigatórios\n1. **Caso base** (condição de parada): Quando parar de se chamar\n2. **Caso recursivo**: A chamada a si mesma com entrada MENOR\n\n⚠️ **ATENÇÃO:** Sem caso base, a recursão nunca para e seu programa trava! (Stack Overflow)\n\n### 🔢 Exemplo: Fatorial\nO fatorial de 5 (escrito 5!) é: 5 × 4 × 3 × 2 × 1 = 120\n\nPerceba o padrão:\n- 5! = 5 × 4!\n- 4! = 4 × 3!\n- 3! = 3 × 2!\n- 2! = 2 × 1!\n- 1! = 1 ← CASO BASE! Sabemos a resposta sem calcular mais.\n\n### 🆚 Recursão vs Loop\nTudo que se faz com recursão, pode ser feito com loop (e vice-versa). Recursão é mais elegante em problemas que naturalmente se dividem em subproblemas (árvores, fractais, divisão e conquista).`,
       codeExample: `// ========================================
 // FATORIAL — Entendendo recursão passo a passo
@@ -235,6 +462,7 @@ console.log(fibonacci(10)); // 55`,
   estruturas: {
     listas: {
       title: "Listas Encadeadas",
+      difficulty: "Intermediário",
       content: `### 🎯 O que você vai aprender\nO que são listas encadeadas, como funcionam e quando usá-las. Vamos comparar com arrays para você entender as diferenças!\n\n### 📋 Pré-requisitos\n- Saber o que é um array\n- Conceito básico de objetos/classes\n- Entender referências/ponteiros (vamos explicar!)\n\n### 🚂 O que é uma Lista Encadeada?\nImagine um trem: cada vagão sabe qual é o PRÓXIMO vagão, mas não sabe o que tem lá no final. É exatamente assim!\n\nCada elemento (chamado de **nó**) contém:\n- Um **valor** (o dado em si)\n- Uma **referência** (endereço) para o próximo nó\n\n### 🆚 Lista Encadeada vs Array\n**Array [1, 2, 3]:**\n- Dados ficam lado a lado na memória\n- Acesso direto por índice: array[2] → instantâneo!\n- Inserir no meio é lento (precisa empurrar tudo)\n\n**Lista Encadeada 1 → 2 → 3:**\n- Dados podem estar em qualquer lugar da memória\n- Para acessar o 3º, precisa passar pelo 1º e 2º\n- Inserir no meio é rápido (só muda as referências)\n\n### 📊 Quando usar cada um?\n- **Array**: Quando precisa acessar elementos por posição\n- **Lista**: Quando faz muitas inserções e remoções\n\n### 🔗 Como funciona a inserção no início\n1. Crie um novo nó\n2. Faça ele apontar para o primeiro nó atual\n3. Atualize a "cabeça" da lista para ser o novo nó\n\nÉ como adicionar um vagão na frente do trem!`,
       codeExample: `// ========================================
 // LISTA ENCADEADA — construindo do zero
@@ -312,6 +540,7 @@ lista.imprimir();`,
     },
     pilhas: {
       title: "Pilhas e Filas",
+      difficulty: "Intermediário",
       content: `### 🎯 O que você vai aprender\nDuas estruturas super importantes e simples: Pilhas e Filas. Você já usa elas todo dia!\n\n### 📋 Pré-requisitos\n- Saber o que é um array\n- Conceito de adicionar e remover itens\n\n### 📚 Pilha (Stack) — LIFO\n**LIFO** = Last In, First Out (Último a Entrar, Primeiro a Sair)\n\n**Analogias do dia a dia:**\n- Uma pilha de pratos: você lava o de cima primeiro (o último colocado)\n- O botão "Desfazer" (Ctrl+Z): desfaz a ÚLTIMA ação que você fez\n- Navegador: botão "Voltar" vai para a ÚLTIMA página visitada\n\n**Operações:**\n- **push** (empilhar): Coloca um item no topo\n- **pop** (desempilhar): Remove e retorna o item do topo\n- **peek** (espiar): Olha o topo sem remover\n\n### 🧑‍🤝‍🧑 Fila (Queue) — FIFO\n**FIFO** = First In, First Out (Primeiro a Entrar, Primeiro a Sair)\n\n**Analogias do dia a dia:**\n- Fila do banco: quem chegou primeiro, é atendido primeiro\n- Fila de impressão: primeiro documento enviado, primeiro a imprimir\n- Fila de mensagens: primeira mensagem enviada, primeira a ser processada\n\n**Operações:**\n- **enqueue** (enfileirar): Coloca no final da fila\n- **dequeue** (desenfileirar): Remove e retorna do início da fila\n- **front** (frente): Olha o primeiro sem remover\n\n### 💡 Dica para lembrar\n- **Pilha** = pense em uma PILHA de livros (tira de cima)\n- **Fila** = pense em uma FILA de supermercado (atende da frente)`,
       codeExample: `// ========================================
 // PILHA (Stack) — Último a entrar, primeiro a sair
@@ -400,6 +629,7 @@ fila.desenfileirar();       // Atendido: Maria`,
     },
     arvores: {
       title: "Árvores Binárias",
+      difficulty: "Avançado",
       content: `### 🎯 O que você vai aprender\nO que são árvores binárias e como elas organizam dados de forma eficiente. Vamos tornar simples!\n\n### 📋 Pré-requisitos\n- Conceito de nó e referência (visto em Listas)\n- Entender comparações (menor, maior)\n- Noção básica de recursão ajuda, mas não é obrigatório\n\n### 🌳 O que é uma Árvore Binária?\nUma árvore binária é como uma árvore genealógica invertida:\n- Começa por um **nó raiz** (ancestral principal) no topo\n- Cada nó pode ter **no máximo 2 filhos** (esquerdo e direito)\n- Nós sem filhos são chamados de **folhas**\n\n### 🔍 Árvore Binária de Busca (BST)\nUma BST tem uma regra simples que a torna muito útil:\n- Valores **MENORES** ficam à **ESQUERDA**\n- Valores **MAIORES** ficam à **DIREITA**\n\n**Exemplo visual inserindo [8, 3, 10, 1, 6]:**\n\n        8         ← raiz\n       / \\\\\n      3   10      ← 3 < 8 (esquerda), 10 > 8 (direita)\n     / \\\\\n    1   6         ← 1 < 3 (esquerda), 6 > 3 (direita)\n\n### ⚡ Por que árvores são eficientes?\nPara buscar um valor, você elimina METADE das opções a cada passo (parecido com busca binária!):\n- Buscar o 6: começa no 8 → menor, vai esquerda → 3 → maior, vai direita → 6! Encontrou em 3 passos!\n- Complexidade média: O(log n)\n\n### 📊 Onde árvores são usadas?\n- Banco de dados (índices para busca rápida)\n- Sistemas de arquivos (pastas e subpastas)\n- Autocompletar (árvores de prefixos)\n- Compressão de dados (Huffman)`,
       codeExample: `// ========================================
 // ÁRVORE BINÁRIA DE BUSCA — passo a passo
@@ -495,6 +725,7 @@ arvore.buscar(99);  // ❌ Não encontrado`,
     },
     grafos: {
       title: "Grafos",
+      difficulty: "Avançado",
       content: `### 🎯 O que você vai aprender\nO que são grafos, como representá-los e como percorrê-los. Grafos estão em TODO lugar!\n\n### 📋 Pré-requisitos\n- Conceito de nó/vértice\n- Saber usar Map e Set em JavaScript\n- Conceito de Fila (para BFS)\n\n### 🕸️ O que é um Grafo?\nUm grafo modela **conexões entre coisas**. É composto por:\n- **Vértices** (ou nós): os objetos\n- **Arestas**: as conexões entre eles\n\n### 🌍 Exemplos no mundo real\n- **Redes sociais**: Pessoas são vértices, amizades são arestas\n- **GPS/Mapas**: Cidades são vértices, estradas são arestas\n- **Internet**: Sites são vértices, links são arestas\n- **WhatsApp**: Contatos são vértices, conversas são arestas\n\n### 📂 Tipos de Grafos\n- **Não-direcionado**: A conexão vai nos dois sentidos (amizade no Facebook: se A é amigo de B, B é amigo de A)\n- **Direcionado**: A conexão tem direção (seguir no Instagram: A segue B, mas B não segue A)\n- **Ponderado**: As conexões têm peso/custo (distância entre cidades)\n\n### 🗂️ Como representar um Grafo?\nUsamos uma **lista de adjacência**: para cada vértice, guardamos seus vizinhos.\n\nExemplo: Ana conhece Bob e Carol. Bob conhece Ana e Diana.\n- Ana → [Bob, Carol]\n- Bob → [Ana, Diana]\n- Carol → [Ana]\n- Diana → [Bob]\n\n### 🔍 Como percorrer um Grafo?\n- **BFS** (Busca em Largura): Visita todos os vizinhos antes de ir mais fundo. Usa FILA.\n- **DFS** (Busca em Profundidade): Vai o mais fundo possível antes de voltar. Usa PILHA.`,
       codeExample: `// ========================================
 // GRAFO — construindo e percorrendo
@@ -576,6 +807,7 @@ rede.bfs("Ana");`,
   engenharia: {
     solid: {
       title: "Princípios SOLID",
+      difficulty: "Avançado",
       content: `### 🎯 O que você vai aprender\nOs 5 princípios SOLID que tornam seu código mais limpo, organizado e fácil de manter. São as regras de ouro do desenvolvimento profissional!\n\n### 📋 Pré-requisitos\n- Conceito de classes e objetos\n- Noção de funções e responsabilidades\n- Vontade de escrever código melhor 😄\n\n### 🏗️ Por que SOLID é importante?\nImagine uma casa onde a cozinha, banheiro e quarto são todos no mesmo cômodo, com os fios passando por todo lado. Funciona? Até funciona... mas qualquer mudança vira um pesadelo!\n\nSOLID te ensina a construir "casas" (códigos) bem organizadas.\n\n### 📝 Os 5 Princípios\n\n**S — Single Responsibility (Responsabilidade Única)**\nCada classe deve fazer UMA coisa só, e fazer bem.\n- ❌ Classe "Usuário" que salva no banco, envia email E gera relatório\n- ✅ Uma classe para salvar, outra para email, outra para relatório\n\n**O — Open/Closed (Aberto/Fechado)**\nCódigo deve ser aberto para extensão, fechado para modificação.\n- ❌ Mudar código existente toda vez que surge algo novo\n- ✅ Criar novas classes que estendem o comportamento\n\n**L — Liskov Substitution (Substituição de Liskov)**\nClasses filhas devem poder substituir as classes pais sem quebrar nada.\n\n**I — Interface Segregation (Segregação de Interfaces)**\nMuitas interfaces específicas são melhores que uma interface gigante.\n- ❌ Interface "Animal" com voar(), nadar(), correr() — pinguim não voa!\n- ✅ Interfaces separadas: "Voador", "Nadador", "Corredor"\n\n**D — Dependency Inversion (Inversão de Dependência)**\nDependa de abstrações (contratos), não de implementações concretas.\n- ❌ Código amarrado ao MySQL (se trocar de banco, muda tudo)\n- ✅ Código depende de uma interface "BancoDeDados" (troca fácil!)`,
       codeExample: `// ========================================
 // PRINCÍPIO S — Responsabilidade Única
@@ -653,6 +885,7 @@ class PedidoService {
     },
     padroes: {
       title: "Padrões de Projeto",
+      difficulty: "Avançado",
       content: `### 🎯 O que você vai aprender\nO que são padrões de projeto (design patterns) e como usar os mais importantes. São como "receitas" que desenvolvedores experientes já testaram!\n\n### 📋 Pré-requisitos\n- Conceito de classes e objetos\n- Princípios SOLID (aula anterior)\n- Entender herança e composição\n\n### 🧩 O que são Padrões de Projeto?\nSão soluções testadas e aprovadas para problemas que aparecem sempre no desenvolvimento. Em vez de reinventar a roda, você usa uma solução que já funciona!\n\n**Analogia:** É como receitas de culinária. Você não inventa uma nova forma de fazer bolo toda vez — segue uma receita que já deu certo!\n\n### 📂 As 3 Categorias\n\n**1. Criacionais** — Como criar objetos\n- **Factory**: "Fábrica" de objetos — em vez de criar direto, pede para a fábrica\n- **Singleton**: Garante que só existe UMA instância (ex: conexão com banco)\n- **Builder**: Constrói objetos complexos passo a passo\n\n**2. Estruturais** — Como organizar objetos\n- **Adapter**: "Adaptador de tomada" — faz coisas incompatíveis funcionarem juntas\n- **Decorator**: Adiciona funcionalidades sem mudar o original\n- **Facade**: "Fachada" — interface simples para algo complexo\n\n**3. Comportamentais** — Como objetos se comunicam\n- **Observer**: "Assinatura de newsletter" — quando algo muda, todos os inscritos são notificados\n- **Strategy**: "Troca de estratégia" — muda o comportamento sem mudar a estrutura\n- **Command**: "Controle remoto" — encapsula ações como objetos`,
       codeExample: `// ========================================
 // PADRÃO OBSERVER — "Newsletter/Notificação"
@@ -716,6 +949,7 @@ sistema.notificar('novaVenda', {
     },
     testes: {
       title: "Testes de Software",
+      difficulty: "Intermediário",
       content: `### 🎯 O que você vai aprender\nPor que testar código é essencial e como escrever seus primeiros testes. Testar não é perda de tempo — é economia de tempo!\n\n### 📋 Pré-requisitos\n- Saber criar funções\n- Conceito de entrada e saída\n- Vontade de escrever código confiável\n\n### ❓ Por que testar?\nImagine que você faz um bolo sem provar a massa. Pode ficar bom... ou pode ser um desastre que você só descobre na hora de servir!\n\n**Testes são como provar a massa:** você verifica se está correto ANTES de entregar.\n\n**Sem testes:**\n- Medo de mudar código (e se quebrar algo?)\n- Bugs descobertos pelo cliente 😱\n- Horas debugando problemas\n\n**Com testes:**\n- Confiança para refatorar\n- Bugs encontrados cedo\n- Documentação viva do comportamento\n\n### 📊 Tipos de Testes (do menor para o maior)\n\n**1. Testes Unitários** — Testam UMA função isolada\n- Rápidos, simples, são a maioria dos testes\n- Ex: "a função somar(2,3) retorna 5?"\n\n**2. Testes de Integração** — Testam partes trabalhando juntas\n- Ex: "o cadastro salva no banco E envia email?"\n\n**3. Testes E2E (End-to-End)** — Testam tudo junto\n- Simulam o usuário real usando o sistema\n- Ex: "abrir o site, fazer login, comprar produto, ver confirmação"\n\n### ✅ Princípio AAA\nTodo teste segue 3 passos:\n1. **Arrange** (Preparar): Monte o cenário\n2. **Act** (Agir): Execute a ação\n3. **Assert** (Verificar): Confira o resultado`,
       codeExample: `// ========================================
 // ESCREVENDO TESTES — passo a passo
@@ -782,6 +1016,7 @@ console.log("0 é par?", ehParar(0) === true ? "✅ PASSOU" : "❌ FALHOU");
     },
     arquitetura: {
       title: "Arquitetura de Software",
+      difficulty: "Avançado",
       content: `### 🎯 O que você vai aprender\nO que é arquitetura de software e os principais padrões usados na indústria. É como a planta de uma casa — antes de construir, você planeja!\n\n### 📋 Pré-requisitos\n- Princípios SOLID\n- Conceito de módulos e responsabilidades\n- Noção de cliente-servidor (navegador e servidor)\n\n### 🏛️ O que é Arquitetura de Software?\nÉ a estrutura de alto nível do seu sistema. Define:\n- Como as partes se organizam\n- Como elas se comunicam\n- Quais regras de dependência existem\n\n**Analogia:** É como a planta de um prédio. Você define onde fica a cozinha, o banheiro, a sala — antes de construir!\n\n### 📐 Padrões mais comuns\n\n**1. MVC — Model-View-Controller**\nSepara o sistema em 3 partes:\n- **Model**: Os dados e regras de negócio (ex: Produto tem nome e preço)\n- **View**: O que o usuário vê (ex: tela com lista de produtos)\n- **Controller**: O "meio de campo" que conecta os dois\n\n**2. Monolítico**\nTudo em um único projeto/sistema. Simples para começar!\n- ✅ Fácil de desenvolver e testar\n- ❌ Difícil de escalar quando cresce muito\n\n**3. Microserviços**\nSistema dividido em serviços pequenos e independentes.\n- ✅ Cada serviço pode escalar separadamente\n- ❌ Mais complexo de gerenciar\n\n**4. Clean Architecture**\nOrganiza em camadas com regras claras de dependência:\n- Camada interna: Regras de negócio (nunca dependem de nada externo)\n- Camada externa: Banco de dados, API, interface\n- Regra: Dependências sempre apontam para DENTRO\n\n### 💡 Quando usar cada uma?\n- **Projeto pequeno/MVP**: Monolítico + MVC\n- **Projeto em crescimento**: Clean Architecture\n- **Projeto grande com equipe grande**: Microserviços`,
       codeExample: `// ========================================
 // CLEAN ARCHITECTURE — Exemplo prático
@@ -908,8 +1143,15 @@ export default function Lesson() {
             <span className="text-foreground font-medium">{lesson.title}</span>
           </div>
 
-          {/* Title */}
-          <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-8">{lesson.title}</h1>
+          {/* Title + Difficulty */}
+          <div className="flex items-center gap-3 mb-8 flex-wrap">
+            <h1 className="font-heading text-3xl md:text-4xl font-bold text-foreground">{lesson.title}</h1>
+            <Badge variant="outline" className={
+              lesson.difficulty === "Iniciante" ? "bg-progress/10 text-progress border-progress/20" :
+              lesson.difficulty === "Intermediário" ? "bg-accent/10 text-accent border-accent/20" :
+              "bg-primary/10 text-primary border-primary/20"
+            }>{lesson.difficulty}</Badge>
+          </div>
 
           {/* Content */}
           <div className="prose prose-lg max-w-none mb-8">
