@@ -240,7 +240,10 @@ export default function Dashboard() {
                             <span className="flex items-center gap-2">
                               {done ? "✅" : "📖"} {mod.title}
                             </span>
-                            <span className="text-xs text-muted-foreground">{mod.duration}</span>
+                            <span className="flex items-center gap-2">
+                              <span className={`inline-block w-2 h-2 rounded-full ${difficultyDot[mod.difficulty] || "bg-muted-foreground"}`} title={mod.difficulty} />
+                              <span className="text-xs text-muted-foreground">{mod.duration}</span>
+                            </span>
                           </Link>
                         );
                       })}
