@@ -8,64 +8,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Code, Database, Layers, LogOut, BookOpen, Trophy, TrendingUp } from "lucide-react";
+import { LogOut, BookOpen, Trophy, TrendingUp } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { toast } from "sonner";
 import { useProgress } from "@/hooks/useProgress";
+import { paths } from "@/data/dashboardPaths";
 
 const diogenesMessages = [
   "Que bom ver você por aqui! Vamos aprender algo novo hoje? 🚀",
   "Lembre-se: cada linha de código é um passo rumo à maestria! 💪",
   "A persistência é o melhor algoritmo para o sucesso! 🎯",
   "Errar faz parte — até meu primeiro programa deu segfault! 😄",
-];
-
-const paths = [
-  {
-    id: "algoritmos",
-    icon: Code,
-    title: "Algoritmos",
-    description: "Busca, ordenação, recursão e programação dinâmica.",
-    level: "Iniciante",
-    modules: [
-      { id: "intro", title: "Introdução a Algoritmos", duration: "15 min", difficulty: "Iniciante" },
-      { id: "variaveis", title: "Variáveis e Tipos de Dados", duration: "15 min", difficulty: "Iniciante" },
-      { id: "condicionais", title: "Condicionais (If/Else)", duration: "15 min", difficulty: "Iniciante" },
-      { id: "loops", title: "Loops (Repetição)", duration: "15 min", difficulty: "Iniciante" },
-      { id: "busca", title: "Algoritmos de Busca", duration: "20 min", difficulty: "Intermediário" },
-      { id: "ordenacao", title: "Algoritmos de Ordenação", duration: "25 min", difficulty: "Intermediário" },
-      { id: "recursao", title: "Recursão", duration: "20 min", difficulty: "Avançado" },
-    ],
-    color: "text-accent",
-  },
-  {
-    id: "estruturas",
-    icon: Database,
-    title: "Estruturas de Dados",
-    description: "Listas, pilhas, filas, árvores e grafos.",
-    level: "Intermediário",
-    modules: [
-      { id: "listas", title: "Listas Encadeadas", duration: "20 min", difficulty: "Intermediário" },
-      { id: "pilhas", title: "Pilhas e Filas", duration: "15 min", difficulty: "Intermediário" },
-      { id: "arvores", title: "Árvores Binárias", duration: "25 min", difficulty: "Avançado" },
-      { id: "grafos", title: "Grafos", duration: "30 min", difficulty: "Avançado" },
-    ],
-    color: "text-progress",
-  },
-  {
-    id: "engenharia",
-    icon: Layers,
-    title: "Engenharia de Software",
-    description: "Padrões de projeto, arquitetura e boas práticas.",
-    level: "Avançado",
-    modules: [
-      { id: "solid", title: "Princípios SOLID", duration: "20 min", difficulty: "Avançado" },
-      { id: "padroes", title: "Padrões de Projeto", duration: "25 min", difficulty: "Avançado" },
-      { id: "testes", title: "Testes de Software", duration: "20 min", difficulty: "Intermediário" },
-      { id: "arquitetura", title: "Arquitetura de Software", duration: "30 min", difficulty: "Avançado" },
-    ],
-    color: "text-navy-light",
-  },
 ];
 
 const levelColors: Record<string, string> = {
