@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard.tsx";
 import Lesson from "./pages/Lesson.tsx";
 import Challenge from "./pages/Challenge.tsx";
 import Glossary from "./pages/Glossary.tsx";
+import Admin from "./pages/Admin.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
