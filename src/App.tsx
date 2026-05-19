@@ -33,6 +33,7 @@ const App = () => (
             <Route path="/aula/:pathId/:lessonId" element={<Lesson />} />
             <Route path="/desafio/:challengeId" element={<Challenge />} />
             <Route path="/glossario" element={<Glossary />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
