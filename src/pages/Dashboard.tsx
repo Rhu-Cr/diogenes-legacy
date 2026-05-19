@@ -111,7 +111,15 @@ export default function Dashboard() {
                 Olá, <span className="font-medium text-foreground">{user.email}</span>! Pronto para aprender?
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              {isAdmin && (
+                <Button variant="outline" asChild className="gap-2 border-accent text-accent hover:bg-accent/10">
+                  <Link to="/admin">
+                    <ShieldCheck className="h-4 w-4" />
+                    Admin
+                  </Link>
+                </Button>
+              )}
               <Button variant="outline" asChild className="gap-2">
                 <Link to="/glossario">
                   <BookOpen className="h-4 w-4" />
