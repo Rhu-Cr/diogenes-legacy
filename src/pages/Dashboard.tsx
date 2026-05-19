@@ -1,6 +1,7 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Navbar } from "@/components/Navbar";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
@@ -8,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { LogOut, BookOpen, Trophy, TrendingUp } from "lucide-react";
+import { LogOut, BookOpen, Trophy, TrendingUp, ShieldCheck } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { toast } from "sonner";
 import { useProgress } from "@/hooks/useProgress";
@@ -37,6 +38,18 @@ export default function Dashboard() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { completedLessonIds, totalLessonPoints, totalChallengePoints } = useProgress();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "admin")
+      .maybeSingle()
+      .then(({ data }) => setIsAdmin(!!data));
+  }, [user]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -98,7 +111,15 @@ export default function Dashboard() {
                 Olá, <span className="font-medium text-foreground">{user.email}</span>! Pronto para aprender?
               </p>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
+              {isAdmin && (
+                <Button variant="outline" asChild className="gap-2 border-accent text-accent hover:bg-accent/10">
+                  <Link to="/admin">
+                    <ShieldCheck className="h-4 w-4" />
+                    Admin
+                  </Link>
+                </Button>
+              )}
               <Button variant="outline" asChild className="gap-2">
                 <Link to="/glossario">
                   <BookOpen className="h-4 w-4" />
