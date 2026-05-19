@@ -38,6 +38,18 @@ export default function Dashboard() {
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { completedLessonIds, totalLessonPoints, totalChallengePoints } = useProgress();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "admin")
+      .maybeSingle()
+      .then(({ data }) => setIsAdmin(!!data));
+  }, [user]);
 
   useEffect(() => {
     if (!loading && !user) {
