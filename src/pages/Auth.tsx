@@ -8,9 +8,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { BookOpen, LogIn, UserPlus } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { toast } from "sonner";
+import { z } from "zod";
+
+const signupSchema = z.object({
+  fullName: z.string().trim().min(3, "Nome muito curto").max(120),
+  age: z.coerce.number().int().min(10, "Idade mínima 10").max(120),
+  email: z.string().trim().email("E-mail inválido").max(255),
+  cpf: z.string().trim().regex(/^\d{11}$/, "CPF deve ter 11 dígitos (somente números)"),
+  password: z.string().min(6, "Senha mínima de 6 caracteres").max(72),
+});
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const [fullName, setFullName] = useState("");
+  const [age, setAge] = useState("");
+  const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,10 +39,24 @@ export default function Auth() {
         toast.success("Bem-vindo de volta! O Prof. Diógenes está feliz em vê-lo! 🎓");
         navigate("/dashboard");
       } else {
+        const cleanCpf = cpf.replace(/\D/g, "");
+        const parsed = signupSchema.safeParse({ fullName, age, email, cpf: cleanCpf, password });
+        if (!parsed.success) {
+          toast.error(parsed.error.issues[0].message);
+          setLoading(false);
+          return;
+        }
         const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin },
+          email: parsed.data.email,
+          password: parsed.data.password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/dashboard`,
+            data: {
+              full_name: parsed.data.fullName,
+              age: parsed.data.age,
+              cpf: parsed.data.cpf,
+            },
+          },
         });
         if (error) throw error;
         toast.success("Conta criada! Verifique seu email para confirmar. 📧");
@@ -43,7 +69,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-4">
           <BackButton label="Voltar ao Início" to="/" />
@@ -58,16 +84,58 @@ export default function Auth() {
         <Card className="shadow-card">
           <CardHeader className="text-center">
             <CardTitle className="font-heading text-2xl">
-              {isLogin ? "Entrar na Plataforma" : "Criar Conta"}
+              {isLogin ? "Entrar na Plataforma" : "Criar Conta de Aluno"}
             </CardTitle>
             <CardDescription>
               {isLogin
                 ? '"Cada login é um novo commit na sua jornada!" — Prof. Diógenes'
-                : '"Todo grande programa começa com o primeiro Hello World!" — Prof. Diógenes'}
+                : "Preencha seus dados para começar a aprender"}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {!isLogin && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName">Nome completo</Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      placeholder="João da Silva"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required
+                      maxLength={120}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="age">Idade</Label>
+                    <Input
+                      id="age"
+                      type="number"
+                      placeholder="17"
+                      value={age}
+                      onChange={(e) => setAge(e.target.value)}
+                      required
+                      min={10}
+                      max={120}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="cpf">CPF (somente números)</Label>
+                    <Input
+                      id="cpf"
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="00000000000"
+                      value={cpf}
+                      onChange={(e) => setCpf(e.target.value.replace(/\D/g, ""))}
+                      required
+                      maxLength={11}
+                    />
+                  </div>
+                </>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
