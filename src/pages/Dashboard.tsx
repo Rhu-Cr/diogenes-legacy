@@ -35,10 +35,21 @@ const difficultyDot: Record<string, string> = {
 };
 
 export default function Dashboard() {
-  const { user, loading, signOut } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { completedLessonIds, totalLessonPoints, totalChallengePoints } = useProgress();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [studentName, setStudentName] = useState<string>("");
+
+  useEffect(() => {
+    const id = localStorage.getItem("student_id");
+    const name = localStorage.getItem("student_name") || "";
+    if (!id && !user) {
+      navigate("/cadastro");
+      return;
+    }
+    setStudentName(name);
+  }, [user, navigate]);
 
   useEffect(() => {
     if (!user) return;
@@ -52,32 +63,22 @@ export default function Dashboard() {
   }, [user]);
 
   useEffect(() => {
-    if (!loading && !user) {
-      navigate("/auth");
-    }
-  }, [user, loading, navigate]);
-
-  useEffect(() => {
-    if (user) {
-      const msg = diogenesMessages[Math.floor(Math.random() * diogenesMessages.length)];
-      toast("Prof. Diógenes diz:", { description: msg, duration: 5000 });
-    }
-  }, [user]);
-
-  if (loading) {
-    return <div className="min-h-screen flex items-center justify-center bg-background"><p className="text-muted-foreground">Carregando...</p></div>;
-  }
-
-  if (!user) return null;
+    const msg = diogenesMessages[Math.floor(Math.random() * diogenesMessages.length)];
+    toast("Prof. Diógenes diz:", { description: msg, duration: 5000 });
+  }, []);
 
   const totalModules = paths.reduce((acc, p) => acc + p.modules.length, 0);
   const totalProgress = totalModules > 0 ? Math.round((completedLessonIds.length / totalModules) * 100) : 0;
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleExit = () => {
+    localStorage.removeItem("student_id");
+    localStorage.removeItem("student_name");
     toast.success("Até logo! O Prof. Diógenes estará aqui quando você voltar! 👋");
     navigate("/");
   };
+
+  const displayName = studentName || user?.email || "estudante";
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -108,7 +109,7 @@ export default function Dashboard() {
                 Dashboard do Aluno
               </h1>
               <p className="text-muted-foreground">
-                Olá, <span className="font-medium text-foreground">{user.email}</span>! Pronto para aprender?
+                Olá, <span className="font-medium text-foreground">{displayName}</span>! Pronto para aprender?
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -126,11 +127,12 @@ export default function Dashboard() {
                   Glossário
                 </Link>
               </Button>
-              <Button variant="outline" onClick={handleSignOut} className="gap-2">
+              <Button variant="outline" onClick={handleExit} className="gap-2">
                 <LogOut className="h-4 w-4" />
                 Sair
               </Button>
             </div>
+
           </div>
 
           {/* Stats */}
