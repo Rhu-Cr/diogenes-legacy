@@ -11,12 +11,13 @@ import { Input } from "@/components/ui/input";
 import { ShieldCheck, Users } from "lucide-react";
 import { toast } from "sonner";
 
-interface StudentProfile {
+interface Student {
   id: string;
   full_name: string;
   age: number;
   email: string;
   cpf: string;
+  phone: string;
   created_at: string;
 }
 
@@ -25,7 +26,7 @@ export default function Admin() {
   const navigate = useNavigate();
   const [checking, setChecking] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [students, setStudents] = useState<StudentProfile[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -46,18 +47,18 @@ export default function Admin() {
         setIsAdmin(false);
         setChecking(false);
         toast.error("Acesso restrito à área administrativa.");
-        navigate("/dashboard");
+        navigate("/");
         return;
       }
       setIsAdmin(true);
-      const { data: profiles, error: pErr } = await supabase
-        .from("profiles")
-        .select("id, full_name, age, email, cpf, created_at")
+      const { data: rows, error: sErr } = await supabase
+        .from("students")
+        .select("id, full_name, age, email, cpf, phone, created_at")
         .order("created_at", { ascending: false });
-      if (pErr) {
+      if (sErr) {
         toast.error("Erro ao carregar alunos.");
       } else {
-        setStudents(profiles ?? []);
+        setStudents(rows ?? []);
       }
       setChecking(false);
     };
@@ -79,12 +80,41 @@ export default function Admin() {
     return (
       s.full_name.toLowerCase().includes(q) ||
       s.email.toLowerCase().includes(q) ||
-      s.cpf.includes(q)
+      s.cpf.includes(q) ||
+      s.phone.includes(q)
     );
   });
 
   const formatCpf = (cpf: string) =>
     cpf.length === 11 ? `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}` : cpf;
+
+  const formatPhone = (p: string) => {
+    if (p.length === 11) return `(${p.slice(0, 2)}) ${p.slice(2, 7)}-${p.slice(7)}`;
+    if (p.length === 10) return `(${p.slice(0, 2)}) ${p.slice(2, 6)}-${p.slice(6)}`;
+    return p;
+  };
+
+  const exportCsv = () => {
+    const header = ["Nome", "Idade", "E-mail", "CPF", "Telefone", "Cadastro"];
+    const rows = filtered.map((s) => [
+      s.full_name,
+      String(s.age),
+      s.email,
+      formatCpf(s.cpf),
+      formatPhone(s.phone),
+      new Date(s.created_at).toLocaleString("pt-BR"),
+    ]);
+    const csv = [header, ...rows]
+      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `alunos-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -92,7 +122,7 @@ export default function Admin() {
       <main className="pt-20 pb-16">
         <div className="container mx-auto px-4">
           <div className="mb-4">
-            <BackButton label="Voltar ao Dashboard" to="/dashboard" />
+            <BackButton label="Voltar ao Início" to="/" />
           </div>
 
           <div className="flex items-center gap-3 mb-8">
@@ -113,16 +143,22 @@ export default function Admin() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="mb-4">
+              <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
                 <Input
-                  placeholder="Buscar por nome, e-mail ou CPF..."
+                  placeholder="Buscar por nome, e-mail, CPF ou telefone..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="max-w-md"
                 />
+                <button
+                  onClick={exportCsv}
+                  className="text-sm px-3 py-2 rounded-md border border-border hover:bg-muted transition-colors"
+                >
+                  Exportar CSV
+                </button>
               </div>
 
-              <div className="rounded-md border">
+              <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -130,26 +166,26 @@ export default function Admin() {
                       <TableHead>Idade</TableHead>
                       <TableHead>E-mail</TableHead>
                       <TableHead>CPF</TableHead>
+                      <TableHead>Telefone</TableHead>
                       <TableHead>Cadastro</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                        <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
                           Nenhum aluno encontrado.
                         </TableCell>
                       </TableRow>
                     ) : (
                       filtered.map((s) => (
                         <TableRow key={s.id}>
-                          <TableCell className="font-medium">{s.full_name || "—"}</TableCell>
-                          <TableCell>{s.age || "—"}</TableCell>
+                          <TableCell className="font-medium">{s.full_name}</TableCell>
+                          <TableCell>{s.age}</TableCell>
                           <TableCell>{s.email}</TableCell>
                           <TableCell className="font-mono text-sm">{formatCpf(s.cpf)}</TableCell>
-                          <TableCell>
-                            {new Date(s.created_at).toLocaleDateString("pt-BR")}
-                          </TableCell>
+                          <TableCell className="font-mono text-sm">{formatPhone(s.phone)}</TableCell>
+                          <TableCell>{new Date(s.created_at).toLocaleDateString("pt-BR")}</TableCell>
                         </TableRow>
                       ))
                     )}

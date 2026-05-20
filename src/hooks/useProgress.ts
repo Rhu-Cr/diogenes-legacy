@@ -1,6 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
 
 export interface LessonProgress {
   lesson_id: string;
@@ -14,33 +12,36 @@ export interface ChallengeProgress {
   time_spent: number | null;
 }
 
+const LESSONS_KEY = "lesson_progress_v1";
+const CHALLENGES_KEY = "challenge_progress_v1";
+
+function readLS<T>(key: string): T[] {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? (JSON.parse(raw) as T[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeLS<T>(key: string, value: T[]) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* ignore */
+  }
+}
+
 export function useProgress() {
-  const { user } = useAuth();
   const [completedLessons, setCompletedLessons] = useState<LessonProgress[]>([]);
   const [completedChallenges, setCompletedChallenges] = useState<ChallengeProgress[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchProgress = useCallback(async () => {
-    if (!user) {
-      setCompletedLessons([]);
-      setCompletedChallenges([]);
-      setLoading(false);
-      return;
-    }
-
-    const [lessonsRes, challengesRes] = await Promise.all([
-      supabase.from("lesson_progress").select("lesson_id, score, total").eq("user_id", user.id),
-      supabase.from("challenge_progress").select("challenge_id, points, time_spent").eq("user_id", user.id),
-    ]);
-
-    if (lessonsRes.data) setCompletedLessons(lessonsRes.data);
-    if (challengesRes.data) setCompletedChallenges(challengesRes.data);
-    setLoading(false);
-  }, [user]);
-
   useEffect(() => {
-    fetchProgress();
-  }, [fetchProgress]);
+    setCompletedLessons(readLS<LessonProgress>(LESSONS_KEY));
+    setCompletedChallenges(readLS<ChallengeProgress>(CHALLENGES_KEY));
+    setLoading(false);
+  }, []);
 
   const isLessonCompleted = useCallback(
     (lessonId: string) => completedLessons.some((l) => l.lesson_id === lessonId),
@@ -49,21 +50,16 @@ export function useProgress() {
 
   const completeLesson = useCallback(
     async (lessonId: string, score: number, total: number) => {
-      if (!user) return;
-      const { error } = await supabase.from("lesson_progress").upsert(
-        { user_id: user.id, lesson_id: lessonId, score, total },
-        { onConflict: "user_id,lesson_id" }
-      );
-      if (!error) {
-        setCompletedLessons((prev) => {
-          const exists = prev.find((l) => l.lesson_id === lessonId);
-          if (exists) return prev.map((l) => (l.lesson_id === lessonId ? { ...l, score, total } : l));
-          return [...prev, { lesson_id: lessonId, score, total }];
-        });
-      }
-      return error;
+      setCompletedLessons((prev) => {
+        const exists = prev.find((l) => l.lesson_id === lessonId);
+        const next = exists
+          ? prev.map((l) => (l.lesson_id === lessonId ? { ...l, score, total } : l))
+          : [...prev, { lesson_id: lessonId, score, total }];
+        writeLS(LESSONS_KEY, next);
+        return next;
+      });
     },
-    [user]
+    []
   );
 
   const getChallengeProgress = useCallback(
@@ -73,21 +69,16 @@ export function useProgress() {
 
   const completeChallenge = useCallback(
     async (challengeId: string, points: number, timeSpent?: number) => {
-      if (!user) return;
-      const { error } = await supabase.from("challenge_progress").upsert(
-        { user_id: user.id, challenge_id: challengeId, points, time_spent: timeSpent ?? null },
-        { onConflict: "user_id,challenge_id" }
-      );
-      if (!error) {
-        setCompletedChallenges((prev) => {
-          const exists = prev.find((c) => c.challenge_id === challengeId);
-          if (exists) return prev.map((c) => (c.challenge_id === challengeId ? { ...c, points, time_spent: timeSpent ?? null } : c));
-          return [...prev, { challenge_id: challengeId, points, time_spent: timeSpent ?? null }];
-        });
-      }
-      return error;
+      setCompletedChallenges((prev) => {
+        const exists = prev.find((c) => c.challenge_id === challengeId);
+        const next = exists
+          ? prev.map((c) => (c.challenge_id === challengeId ? { ...c, points, time_spent: timeSpent ?? null } : c))
+          : [...prev, { challenge_id: challengeId, points, time_spent: timeSpent ?? null }];
+        writeLS(CHALLENGES_KEY, next);
+        return next;
+      });
     },
-    [user]
+    []
   );
 
   const completedLessonIds = completedLessons.map((l) => l.lesson_id);
@@ -105,6 +96,6 @@ export function useProgress() {
     completeChallenge,
     totalLessonPoints,
     totalChallengePoints,
-    refetch: fetchProgress,
+    refetch: async () => {},
   };
 }
