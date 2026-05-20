@@ -107,6 +107,36 @@ export type Database = {
         }
         Relationships: []
       }
+      students: {
+        Row: {
+          age: number
+          cpf: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+        }
+        Insert: {
+          age: number
+          cpf: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+        }
+        Update: {
+          age?: number
+          cpf?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
