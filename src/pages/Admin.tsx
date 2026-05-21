@@ -18,6 +18,7 @@ interface Student {
   email: string;
   cpf: string;
   phone: string;
+  cep: string;
   created_at: string;
 }
 
