@@ -54,7 +54,7 @@ export default function Admin() {
       setIsAdmin(true);
       const { data: rows, error: sErr } = await supabase
         .from("students")
-        .select("id, full_name, age, email, cpf, phone, created_at")
+        .select("id, full_name, age, email, cpf, phone, cep, created_at")
         .order("created_at", { ascending: false });
       if (sErr) {
         toast.error("Erro ao carregar alunos.");
