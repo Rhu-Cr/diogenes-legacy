@@ -151,7 +151,7 @@ export default function Admin() {
             <CardContent>
               <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
                 <Input
-                  placeholder="Buscar por nome, e-mail, CPF ou telefone..."
+                  placeholder="Buscar por nome, e-mail, CPF, telefone ou CEP..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="max-w-md"
