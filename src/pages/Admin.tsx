@@ -82,7 +82,8 @@ export default function Admin() {
       s.full_name.toLowerCase().includes(q) ||
       s.email.toLowerCase().includes(q) ||
       s.cpf.includes(q) ||
-      s.phone.includes(q)
+      s.phone.includes(q) ||
+      s.cep.includes(q)
     );
   });
 
