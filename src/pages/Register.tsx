@@ -16,6 +16,7 @@ const schema = z.object({
   email: z.string().trim().email("E-mail inválido").max(255),
   cpf: z.string().trim().regex(/^\d{11}$/, "CPF deve ter 11 dígitos (somente números)"),
   phone: z.string().trim().regex(/^\d{10,11}$/, "Telefone deve ter 10 ou 11 dígitos (DDD + número)"),
+  cep: z.string().trim().regex(/^\d{8}$/, "CEP deve ter 8 dígitos (somente números)"),
 });
 
 export default function Register() {
