@@ -25,6 +25,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
   const [phone, setPhone] = useState("");
+  const [cep, setCep] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
