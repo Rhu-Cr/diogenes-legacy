@@ -180,7 +180,7 @@ export default function Admin() {
                   <TableBody>
                     {filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                        <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
                           Nenhum aluno encontrado.
                         </TableCell>
                       </TableRow>
@@ -192,6 +192,7 @@ export default function Admin() {
                           <TableCell>{s.email}</TableCell>
                           <TableCell className="font-mono text-sm">{formatCpf(s.cpf)}</TableCell>
                           <TableCell className="font-mono text-sm">{formatPhone(s.phone)}</TableCell>
+                          <TableCell className="font-mono text-sm">{formatCep(s.cep)}</TableCell>
                           <TableCell>{new Date(s.created_at).toLocaleDateString("pt-BR")}</TableCell>
                         </TableRow>
                       ))
