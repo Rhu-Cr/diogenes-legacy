@@ -173,6 +173,7 @@ export default function Admin() {
                       <TableHead>E-mail</TableHead>
                       <TableHead>CPF</TableHead>
                       <TableHead>Telefone</TableHead>
+                      <TableHead>CEP</TableHead>
                       <TableHead>Cadastro</TableHead>
                     </TableRow>
                   </TableHeader>
