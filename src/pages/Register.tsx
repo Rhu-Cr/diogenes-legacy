@@ -123,6 +123,10 @@ export default function Register() {
                 <Label htmlFor="phone">Telefone (DDD + número)</Label>
                 <Input id="phone" inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))} required maxLength={11} placeholder="11999998888" />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="cep">CEP (somente números)</Label>
+                <Input id="cep" inputMode="numeric" value={cep} onChange={(e) => setCep(e.target.value.replace(/\D/g, ""))} required maxLength={8} placeholder="00000000" />
+              </div>
 
               <Button type="submit" className="w-full bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90" disabled={loading}>
                 <UserPlus className="h-4 w-4 mr-2" />
