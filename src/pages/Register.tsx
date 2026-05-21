@@ -39,6 +39,7 @@ export default function Register() {
         email,
         cpf: cpf.replace(/\D/g, ""),
         phone: phone.replace(/\D/g, ""),
+        cep: cep.replace(/\D/g, ""),
       });
       if (!parsed.success) {
         toast.error(parsed.error.issues[0].message);
@@ -54,6 +55,7 @@ export default function Register() {
           email: parsed.data.email,
           cpf: parsed.data.cpf,
           phone: parsed.data.phone,
+          cep: parsed.data.cep,
         })
         .select("id, full_name")
         .single();
