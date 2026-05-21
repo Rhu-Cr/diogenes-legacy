@@ -16,6 +16,7 @@ const schema = z.object({
   email: z.string().trim().email("E-mail inválido").max(255),
   cpf: z.string().trim().regex(/^\d{11}$/, "CPF deve ter 11 dígitos (somente números)"),
   phone: z.string().trim().regex(/^\d{10,11}$/, "Telefone deve ter 10 ou 11 dígitos (DDD + número)"),
+  cep: z.string().trim().regex(/^\d{8}$/, "CEP deve ter 8 dígitos (somente números)"),
 });
 
 export default function Register() {
@@ -24,6 +25,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
   const [phone, setPhone] = useState("");
+  const [cep, setCep] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -37,6 +39,7 @@ export default function Register() {
         email,
         cpf: cpf.replace(/\D/g, ""),
         phone: phone.replace(/\D/g, ""),
+        cep: cep.replace(/\D/g, ""),
       });
       if (!parsed.success) {
         toast.error(parsed.error.issues[0].message);
@@ -52,6 +55,7 @@ export default function Register() {
           email: parsed.data.email,
           cpf: parsed.data.cpf,
           phone: parsed.data.phone,
+          cep: parsed.data.cep,
         })
         .select("id, full_name")
         .single();
@@ -118,6 +122,10 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="phone">Telefone (DDD + número)</Label>
                 <Input id="phone" inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))} required maxLength={11} placeholder="11999998888" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="cep">CEP (somente números)</Label>
+                <Input id="cep" inputMode="numeric" value={cep} onChange={(e) => setCep(e.target.value.replace(/\D/g, ""))} required maxLength={8} placeholder="00000000" />
               </div>
 
               <Button type="submit" className="w-full bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90" disabled={loading}>

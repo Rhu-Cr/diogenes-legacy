@@ -1,0 +1,1 @@
+ALTER TABLE public.students ADD COLUMN cep TEXT NOT NULL DEFAULT '';

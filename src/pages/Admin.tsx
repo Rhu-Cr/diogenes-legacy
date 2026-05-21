@@ -18,6 +18,7 @@ interface Student {
   email: string;
   cpf: string;
   phone: string;
+  cep: string;
   created_at: string;
 }
 
@@ -53,7 +54,7 @@ export default function Admin() {
       setIsAdmin(true);
       const { data: rows, error: sErr } = await supabase
         .from("students")
-        .select("id, full_name, age, email, cpf, phone, created_at")
+        .select("id, full_name, age, email, cpf, phone, cep, created_at")
         .order("created_at", { ascending: false });
       if (sErr) {
         toast.error("Erro ao carregar alunos.");
@@ -81,7 +82,8 @@ export default function Admin() {
       s.full_name.toLowerCase().includes(q) ||
       s.email.toLowerCase().includes(q) ||
       s.cpf.includes(q) ||
-      s.phone.includes(q)
+      s.phone.includes(q) ||
+      s.cep.includes(q)
     );
   });
 
@@ -94,14 +96,18 @@ export default function Admin() {
     return p;
   };
 
+  const formatCep = (cep: string) =>
+    cep.length === 8 ? `${cep.slice(0, 2)}.${cep.slice(2, 5)}-${cep.slice(5)}` : cep;
+
   const exportCsv = () => {
-    const header = ["Nome", "Idade", "E-mail", "CPF", "Telefone", "Cadastro"];
+    const header = ["Nome", "Idade", "E-mail", "CPF", "Telefone", "CEP", "Cadastro"];
     const rows = filtered.map((s) => [
       s.full_name,
       String(s.age),
       s.email,
       formatCpf(s.cpf),
       formatPhone(s.phone),
+      formatCep(s.cep),
       new Date(s.created_at).toLocaleString("pt-BR"),
     ]);
     const csv = [header, ...rows]
@@ -145,7 +151,7 @@ export default function Admin() {
             <CardContent>
               <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
                 <Input
-                  placeholder="Buscar por nome, e-mail, CPF ou telefone..."
+                  placeholder="Buscar por nome, e-mail, CPF, telefone ou CEP..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="max-w-md"
@@ -167,13 +173,14 @@ export default function Admin() {
                       <TableHead>E-mail</TableHead>
                       <TableHead>CPF</TableHead>
                       <TableHead>Telefone</TableHead>
+                      <TableHead>CEP</TableHead>
                       <TableHead>Cadastro</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={6} className="text-center text-muted-foreground py-8">
+                        <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
                           Nenhum aluno encontrado.
                         </TableCell>
                       </TableRow>
@@ -185,6 +192,7 @@ export default function Admin() {
                           <TableCell>{s.email}</TableCell>
                           <TableCell className="font-mono text-sm">{formatCpf(s.cpf)}</TableCell>
                           <TableCell className="font-mono text-sm">{formatPhone(s.phone)}</TableCell>
+                          <TableCell className="font-mono text-sm">{formatCep(s.cep)}</TableCell>
                           <TableCell>{new Date(s.created_at).toLocaleDateString("pt-BR")}</TableCell>
                         </TableRow>
                       ))
