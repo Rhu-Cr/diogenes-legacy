@@ -90,20 +90,18 @@ export default function Admin() {
   const formatCpf = (cpf: string) =>
     cpf.length === 11 ? `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}` : cpf;
 
-  const formatPhone = (p: string) => {
-    if (p.length === 11) return `(${p.slice(0, 2)}) ${p.slice(2, 7)}-${p.slice(7)}`;
-    if (p.length === 10) return `(${p.slice(0, 2)}) ${p.slice(2, 6)}-${p.slice(6)}`;
-    return p;
-  };
+  const formatCep = (cep: string) =>
+    cep.length === 8 ? `${cep.slice(0, 2)}.${cep.slice(2, 5)}-${cep.slice(5)}` : cep;
 
   const exportCsv = () => {
-    const header = ["Nome", "Idade", "E-mail", "CPF", "Telefone", "Cadastro"];
+    const header = ["Nome", "Idade", "E-mail", "CPF", "Telefone", "CEP", "Cadastro"];
     const rows = filtered.map((s) => [
       s.full_name,
       String(s.age),
       s.email,
       formatCpf(s.cpf),
       formatPhone(s.phone),
+      formatCep(s.cep),
       new Date(s.created_at).toLocaleString("pt-BR"),
     ]);
     const csv = [header, ...rows]
