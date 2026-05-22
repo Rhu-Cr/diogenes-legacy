@@ -12,20 +12,37 @@ import { z } from "zod";
 
 const schema = z.object({
   fullName: z.string().trim().min(3, "Nome muito curto").max(120),
-  age: z.coerce.number().int().min(10, "Idade mínima 10").max(120),
+  birthDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "Data de nascimento inválida")
+    .refine((v) => {
+      const d = new Date(v);
+      return !isNaN(d.getTime()) && d <= new Date() && d >= new Date("1900-01-01");
+    }, "Data de nascimento inválida"),
   email: z.string().trim().email("E-mail inválido").max(255),
   cpf: z.string().trim().regex(/^\d{11}$/, "CPF deve ter 11 dígitos (somente números)"),
   phone: z.string().trim().regex(/^\d{10,11}$/, "Telefone deve ter 10 ou 11 dígitos (DDD + número)"),
   cep: z.string().trim().regex(/^\d{8}$/, "CEP deve ter 8 dígitos (somente números)"),
+  city: z.string().trim().min(2, "Cidade muito curta").max(120),
 });
+
+function calcAge(birth: string): number {
+  const b = new Date(birth);
+  const t = new Date();
+  let age = t.getFullYear() - b.getFullYear();
+  const m = t.getMonth() - b.getMonth();
+  if (m < 0 || (m === 0 && t.getDate() < b.getDate())) age--;
+  return age;
+}
 
 export default function Register() {
   const [fullName, setFullName] = useState("");
-  const [age, setAge] = useState("");
+  const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
   const [phone, setPhone] = useState("");
   const [cep, setCep] = useState("");
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -35,11 +52,12 @@ export default function Register() {
     try {
       const parsed = schema.safeParse({
         fullName,
-        age,
+        birthDate,
         email,
         cpf: cpf.replace(/\D/g, ""),
         phone: phone.replace(/\D/g, ""),
         cep: cep.replace(/\D/g, ""),
+        city,
       });
       if (!parsed.success) {
         toast.error(parsed.error.issues[0].message);
@@ -51,11 +69,13 @@ export default function Register() {
         .from("students")
         .insert({
           full_name: parsed.data.fullName,
-          age: parsed.data.age,
+          birth_date: parsed.data.birthDate,
+          age: calcAge(parsed.data.birthDate),
           email: parsed.data.email,
           cpf: parsed.data.cpf,
           phone: parsed.data.phone,
           cep: parsed.data.cep,
+          city: parsed.data.city,
         })
         .select("id, full_name")
         .single();
@@ -108,8 +128,8 @@ export default function Register() {
                 <Input id="fullName" value={fullName} onChange={(e) => setFullName(e.target.value)} required maxLength={120} placeholder="João da Silva" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="age">Idade</Label>
-                <Input id="age" type="number" min={10} max={120} value={age} onChange={(e) => setAge(e.target.value)} required placeholder="17" />
+                <Label htmlFor="birthDate">Data de nascimento</Label>
+                <Input id="birthDate" type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required max={new Date().toISOString().slice(0, 10)} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">E-mail</Label>
@@ -126,6 +146,10 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="cep">CEP (somente números)</Label>
                 <Input id="cep" inputMode="numeric" value={cep} onChange={(e) => setCep(e.target.value.replace(/\D/g, ""))} required maxLength={8} placeholder="00000000" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="city">Cidade</Label>
+                <Input id="city" value={city} onChange={(e) => setCity(e.target.value)} required maxLength={120} placeholder="São Paulo" />
               </div>
 
               <Button type="submit" className="w-full bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90" disabled={loading}>

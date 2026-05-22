@@ -14,11 +14,13 @@ import { toast } from "sonner";
 interface Student {
   id: string;
   full_name: string;
-  age: number;
+  birth_date: string | null;
+  age: number | null;
   email: string;
   cpf: string;
   phone: string;
   cep: string;
+  city: string;
   created_at: string;
 }
 
@@ -54,12 +56,12 @@ export default function Admin() {
       setIsAdmin(true);
       const { data: rows, error: sErr } = await supabase
         .from("students")
-        .select("id, full_name, age, email, cpf, phone, cep, created_at")
+        .select("id, full_name, birth_date, age, email, cpf, phone, cep, city, created_at")
         .order("created_at", { ascending: false });
       if (sErr) {
         toast.error("Erro ao carregar alunos.");
       } else {
-        setStudents(rows ?? []);
+        setStudents((rows ?? []) as Student[]);
       }
       setChecking(false);
     };
@@ -83,7 +85,8 @@ export default function Admin() {
       s.email.toLowerCase().includes(q) ||
       s.cpf.includes(q) ||
       s.phone.includes(q) ||
-      s.cep.includes(q)
+      s.cep.includes(q) ||
+      (s.city ?? "").toLowerCase().includes(q)
     );
   });
 
@@ -99,15 +102,33 @@ export default function Admin() {
   const formatCep = (cep: string) =>
     cep.length === 8 ? `${cep.slice(0, 2)}.${cep.slice(2, 5)}-${cep.slice(5)}` : cep;
 
+  const formatBirth = (d: string | null) => {
+    if (!d) return "—";
+    const [y, m, day] = d.split("-");
+    return `${day}/${m}/${y}`;
+  };
+
+  const calcAge = (d: string | null, fallback: number | null) => {
+    if (!d) return fallback ?? "—";
+    const b = new Date(d);
+    const t = new Date();
+    let age = t.getFullYear() - b.getFullYear();
+    const mm = t.getMonth() - b.getMonth();
+    if (mm < 0 || (mm === 0 && t.getDate() < b.getDate())) age--;
+    return age;
+  };
+
   const exportCsv = () => {
-    const header = ["Nome", "Idade", "E-mail", "CPF", "Telefone", "CEP", "Cadastro"];
+    const header = ["Nome", "Data de nascimento", "Idade", "E-mail", "CPF", "Telefone", "CEP", "Cidade", "Cadastro"];
     const rows = filtered.map((s) => [
       s.full_name,
-      String(s.age),
+      formatBirth(s.birth_date),
+      String(calcAge(s.birth_date, s.age)),
       s.email,
       formatCpf(s.cpf),
       formatPhone(s.phone),
       formatCep(s.cep),
+      s.city ?? "",
       new Date(s.created_at).toLocaleString("pt-BR"),
     ]);
     const csv = [header, ...rows]
@@ -151,7 +172,7 @@ export default function Admin() {
             <CardContent>
               <div className="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
                 <Input
-                  placeholder="Buscar por nome, e-mail, CPF, telefone ou CEP..."
+                  placeholder="Buscar por nome, e-mail, CPF, telefone, CEP ou cidade..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="max-w-md"
@@ -169,18 +190,20 @@ export default function Admin() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Nome completo</TableHead>
+                      <TableHead>Nascimento</TableHead>
                       <TableHead>Idade</TableHead>
                       <TableHead>E-mail</TableHead>
                       <TableHead>CPF</TableHead>
                       <TableHead>Telefone</TableHead>
                       <TableHead>CEP</TableHead>
+                      <TableHead>Cidade</TableHead>
                       <TableHead>Cadastro</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filtered.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                        <TableCell colSpan={9} className="text-center text-muted-foreground py-8">
                           Nenhum aluno encontrado.
                         </TableCell>
                       </TableRow>
@@ -188,11 +211,13 @@ export default function Admin() {
                       filtered.map((s) => (
                         <TableRow key={s.id}>
                           <TableCell className="font-medium">{s.full_name}</TableCell>
-                          <TableCell>{s.age}</TableCell>
+                          <TableCell>{formatBirth(s.birth_date)}</TableCell>
+                          <TableCell>{calcAge(s.birth_date, s.age)}</TableCell>
                           <TableCell>{s.email}</TableCell>
                           <TableCell className="font-mono text-sm">{formatCpf(s.cpf)}</TableCell>
                           <TableCell className="font-mono text-sm">{formatPhone(s.phone)}</TableCell>
                           <TableCell className="font-mono text-sm">{formatCep(s.cep)}</TableCell>
+                          <TableCell>{s.city || "—"}</TableCell>
                           <TableCell>{new Date(s.created_at).toLocaleDateString("pt-BR")}</TableCell>
                         </TableRow>
                       ))
