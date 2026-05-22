@@ -109,8 +109,10 @@ export type Database = {
       }
       students: {
         Row: {
-          age: number
+          age: number | null
+          birth_date: string | null
           cep: string
+          city: string
           cpf: string
           created_at: string
           email: string
@@ -119,8 +121,10 @@ export type Database = {
           phone: string
         }
         Insert: {
-          age: number
+          age?: number | null
+          birth_date?: string | null
           cep?: string
+          city?: string
           cpf: string
           created_at?: string
           email: string
@@ -129,8 +133,10 @@ export type Database = {
           phone: string
         }
         Update: {
-          age?: number
+          age?: number | null
+          birth_date?: string | null
           cep?: string
+          city?: string
           cpf?: string
           created_at?: string
           email?: string
