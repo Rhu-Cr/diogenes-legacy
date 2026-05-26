@@ -103,7 +103,7 @@ export default function Register() {
       }
       setErrors({});
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("students")
         .insert({
           full_name: parsed.data.fullName,
@@ -114,9 +114,7 @@ export default function Register() {
           phone: parsed.data.phone,
           cep: parsed.data.cep,
           city: parsed.data.city,
-        })
-        .select("id, full_name")
-        .single();
+        });
 
       if (error) {
         if (error.code === "23505") {
@@ -129,9 +127,8 @@ export default function Register() {
         return;
       }
 
-      localStorage.setItem("student_id", data.id);
-      localStorage.setItem("student_name", data.full_name);
-      toast.success(`Bem-vindo(a), ${data.full_name}! Bons estudos! 🎓`);
+      localStorage.setItem("student_name", parsed.data.fullName);
+      toast.success(`Bem-vindo(a), ${parsed.data.fullName}! Bons estudos! 🎓`);
       navigate("/dashboard");
     } catch (err: any) {
       toast.error(err.message || "Erro ao cadastrar.");
