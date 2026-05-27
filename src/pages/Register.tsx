@@ -295,6 +295,12 @@ export default function Register() {
                 )}
               </div>
 
+            <p className="text-xs text-muted-foreground text-center leading-relaxed">
+                Ao clicar em "Começar a Estudar", você autoriza a UNISOCIESC a entrar em contato pelo e-mail ou telefone informados para envio de materiais informativos sobre o curso. 
+                Seus dados pessoais serão tratados com sigilo e segurança, em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD), 
+                e não serão comercializados ou repassados a terceiros sem sua prévia autorização.
+              </p>
+
               <Button type="submit" className="w-full bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90" disabled={loading}>
                 <UserPlus className="h-4 w-4 mr-2" />
                 {loading ? "Cadastrando..." : "Começar a Estudar"}
