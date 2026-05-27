@@ -128,6 +128,7 @@ export default function Register() {
       }
 
       localStorage.setItem("student_name", parsed.data.fullName);
+      localStorage.setItem("student_id", parsed.data.email);
       toast.success(`Bem-vindo(a), ${parsed.data.fullName}! Bons estudos! 🎓`);
       navigate("/dashboard");
     } catch (err: any) {
