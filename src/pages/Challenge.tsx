@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-
+import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState, useRef } from "react";
 import { Navbar } from "@/components/Navbar";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
@@ -168,6 +168,7 @@ const difficultyColors: Record<string, string> = {
 const Challenge = () => {
   const { challengeId } = useParams();
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const { completeChallenge: saveChallengeProgress, getChallengeProgress } = useProgress();
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
@@ -182,9 +183,10 @@ const Challenge = () => {
   const challenge = challengeId ? challengesData[challengeId] : null;
 
   useEffect(() => {
-    const hasStudent = localStorage.getItem("student_id");
-    if (!hasStudent) navigate("/cadastro");
-  }, [navigate]);
+    if (!loading && !user) {
+      navigate("/auth");
+    }
+  }, [user, loading, navigate]);
 
   useEffect(() => {
     if (challenge) {
@@ -311,7 +313,7 @@ const Challenge = () => {
     );
   }
 
-  
+  if (loading) return null;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

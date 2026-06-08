@@ -1,4 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useProgress } from "@/hooks/useProgress";
@@ -25,16 +26,17 @@ const lessons: Record<string, Record<string, LessonData>> = {
 
 export default function Lesson() {
   const { pathId, lessonId } = useParams<{ pathId: string; lessonId: string }>();
+  const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
   const { isLessonCompleted, completeLesson: saveLessonProgress } = useProgress();
   const lessonKey = `${pathId}-${lessonId}`;
   const completed = isLessonCompleted(lessonKey);
 
   useEffect(() => {
-    const hasStudent = localStorage.getItem("student_id");
-    if (!hasStudent) navigate("/cadastro");
-  }, [navigate]);
+    if (!authLoading && !user) navigate("/auth");
+  }, [user, authLoading, navigate]);
 
+  if (authLoading || !user) return null;
 
   const lesson = lessons[pathId!]?.[lessonId!];
   if (!lesson) {

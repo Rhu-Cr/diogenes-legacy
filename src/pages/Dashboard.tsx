@@ -1,7 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
@@ -9,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { LogOut, BookOpen, Trophy, TrendingUp, ShieldCheck } from "lucide-react";
+import { LogOut, BookOpen, Trophy, TrendingUp } from "lucide-react";
 import { BackButton } from "@/components/BackButton";
 import { toast } from "sonner";
 import { useProgress } from "@/hooks/useProgress";
@@ -35,50 +34,37 @@ const difficultyDot: Record<string, string> = {
 };
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const { completedLessonIds, totalLessonPoints, totalChallengePoints } = useProgress();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [studentName, setStudentName] = useState<string>("");
 
   useEffect(() => {
-    const id = localStorage.getItem("student_id");
-    const name = localStorage.getItem("student_name") || "";
-    if (!id && !user) {
-      navigate("/cadastro");
-      return;
+    if (!loading && !user) {
+      navigate("/auth");
     }
-    setStudentName(name);
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
 
   useEffect(() => {
-    if (!user) return;
-    supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin")
-      .maybeSingle()
-      .then(({ data }) => setIsAdmin(!!data));
+    if (user) {
+      const msg = diogenesMessages[Math.floor(Math.random() * diogenesMessages.length)];
+      toast("Prof. Diógenes diz:", { description: msg, duration: 5000 });
+    }
   }, [user]);
 
-  useEffect(() => {
-    const msg = diogenesMessages[Math.floor(Math.random() * diogenesMessages.length)];
-    toast("Prof. Diógenes diz:", { description: msg, duration: 5000 });
-  }, []);
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center bg-background"><p className="text-muted-foreground">Carregando...</p></div>;
+  }
+
+  if (!user) return null;
 
   const totalModules = paths.reduce((acc, p) => acc + p.modules.length, 0);
   const totalProgress = totalModules > 0 ? Math.round((completedLessonIds.length / totalModules) * 100) : 0;
 
-  const handleExit = () => {
-    localStorage.removeItem("student_id");
-    localStorage.removeItem("student_name");
+  const handleSignOut = async () => {
+    await signOut();
     toast.success("Até logo! O Prof. Diógenes estará aqui quando você voltar! 👋");
     navigate("/");
   };
-
-  const displayName = studentName || user?.email || "estudante";
-
 
   return (
     <div className="min-h-screen bg-background">
@@ -109,30 +95,21 @@ export default function Dashboard() {
                 Dashboard do Aluno
               </h1>
               <p className="text-muted-foreground">
-                Olá, <span className="font-medium text-foreground">{displayName}</span>! Pronto para aprender?
+                Olá, <span className="font-medium text-foreground">{user.email}</span>! Pronto para aprender?
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {isAdmin && (
-                <Button variant="outline" asChild className="gap-2 border-accent text-accent hover:bg-accent/10">
-                  <Link to="/admin">
-                    <ShieldCheck className="h-4 w-4" />
-                    Admin
-                  </Link>
-                </Button>
-              )}
+            <div className="flex gap-2">
               <Button variant="outline" asChild className="gap-2">
                 <Link to="/glossario">
                   <BookOpen className="h-4 w-4" />
                   Glossário
                 </Link>
               </Button>
-              <Button variant="outline" onClick={handleExit} className="gap-2">
+              <Button variant="outline" onClick={handleSignOut} className="gap-2">
                 <LogOut className="h-4 w-4" />
                 Sair
               </Button>
             </div>
-
           </div>
 
           {/* Stats */}

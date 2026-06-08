@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { BookOpen, Menu, X, UserPlus, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, Menu, X, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
@@ -15,12 +15,6 @@ const navItems = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useAuth();
-  const [hasStudent, setHasStudent] = useState(false);
-
-  useEffect(() => {
-    setHasStudent(!!localStorage.getItem("student_id"));
-  }, []);
-
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b" role="navigation" aria-label="Menu principal">
@@ -46,34 +40,19 @@ export function Navbar() {
             ))}
           </ul>
           {user ? (
-            <Link to="/admin">
-              <Button size="sm" className="bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 gap-2">
-                <ShieldCheck className="h-4 w-4" />
-                Admin
-              </Button>
-            </Link>
-          ) : hasStudent ? (
             <Link to="/dashboard">
               <Button size="sm" className="bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90">
                 Meu Dashboard
               </Button>
             </Link>
           ) : (
-            <div className="flex items-center gap-2">
-              <Link to="/cadastro">
-                <Button size="sm" className="bg-gold-gradient text-secondary-foreground font-semibold hover:opacity-90 gap-2">
-                  <UserPlus className="h-4 w-4" />
-                  Cadastrar
-                </Button>
-              </Link>
-              <Link to="/auth" aria-label="Login do administrador" title="Login do administrador">
-                <Button size="sm" variant="ghost" className="gap-1 text-muted-foreground">
-                  <ShieldCheck className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
+            <Link to="/auth">
+              <Button size="sm" variant="outline" className="gap-2">
+                <LogIn className="h-4 w-4" />
+                Entrar
+              </Button>
+            </Link>
           )}
-
         </div>
 
         <Button
@@ -106,25 +85,13 @@ export function Navbar() {
             ))}
             <li role="none">
               <Link
-                to={user ? "/admin" : hasStudent ? "/dashboard" : "/cadastro"}
+                to={user ? "/dashboard" : "/auth"}
                 onClick={() => setMobileOpen(false)}
                 className="block px-4 py-3 rounded-lg text-sm font-semibold text-accent hover:bg-muted transition-colors"
               >
-                {user ? "Admin" : hasStudent ? "Meu Dashboard" : "Cadastrar"}
+                {user ? "Meu Dashboard" : "Entrar"}
               </Link>
             </li>
-            {!user && !hasStudent && (
-              <li role="none">
-                <Link
-                  to="/auth"
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-3 rounded-lg text-sm text-muted-foreground hover:bg-muted transition-colors"
-                >
-                  Login do administrador
-                </Link>
-              </li>
-            )}
-
           </ul>
         </div>
       )}
