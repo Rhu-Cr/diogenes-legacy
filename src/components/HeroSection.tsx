@@ -1,4 +1,5 @@
 import { ArrowDown, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import diogenesImg from "@/assets/diogenes.png";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -38,7 +39,7 @@ export function HeroSection() {
               className="bg-gold-gradient text-secondary-foreground font-semibold shadow-gold hover:opacity-90 transition-opacity text-base px-8"
               asChild
             >
-              <a href="#trilhas">Começar Jornada</a>
+              <Link to="/auth">Começar Jornada</Link>
             </Button>
             <Button
               size="lg"
