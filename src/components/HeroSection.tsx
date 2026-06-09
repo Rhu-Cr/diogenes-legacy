@@ -1,4 +1,5 @@
 import { ArrowDown, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import diogenesImg from "@/assets/diogenes.png";
 import heroBg from "@/assets/hero-bg.jpg";
