@@ -43,6 +43,10 @@ export default function Auth() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const rawReturn = searchParams.get("returnUrl") || "/dashboard";
+  // Only allow internal paths to prevent open redirects
+  const returnUrl = rawReturn.startsWith("/") && !rawReturn.startsWith("//") ? rawReturn : "/dashboard";
 
   const friendlyError = (msg: string) => {
     const m = msg.toLowerCase();
