@@ -39,7 +39,7 @@ export function HeroSection() {
               className="bg-gold-gradient text-secondary-foreground font-semibold shadow-gold hover:opacity-90 transition-opacity text-base px-8"
               asChild
             >
-              <Link to="/auth">Começar Jornada</Link>
+              <Link to="/auth?returnUrl=%2Fdashboard">Começar Jornada</Link>
             </Button>
             <Button
               size="lg"

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,10 @@ export default function Auth() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const rawReturn = searchParams.get("returnUrl") || "/dashboard";
+  // Only allow internal paths to prevent open redirects
+  const returnUrl = rawReturn.startsWith("/") && !rawReturn.startsWith("//") ? rawReturn : "/dashboard";
 
   const friendlyError = (msg: string) => {
     const m = msg.toLowerCase();
@@ -82,17 +86,17 @@ export default function Auth() {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (error) throw error;
         toast.success("Bem-vindo de volta! O Prof. Diógenes está feliz em vê-lo! 🎓");
-        navigate("/dashboard");
+        navigate(returnUrl);
       } else {
         const { data, error } = await supabase.auth.signUp({
           email: email.trim(),
           password,
-          options: { emailRedirectTo: `${window.location.origin}/dashboard` },
+          options: { emailRedirectTo: `${window.location.origin}${returnUrl}` },
         });
         if (error) throw error;
         if (data.session) {
           toast.success("Conta criada! Bem-vindo à plataforma. 🚀");
-          navigate("/dashboard");
+          navigate(returnUrl);
         } else {
           toast.success("Conta criada! Verifique seu e-mail para confirmar. 📧");
           setIsLogin(true);
