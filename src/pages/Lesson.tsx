@@ -1,7 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
-import { Navbar } from "@/components/Navbar";
 import { useProgress } from "@/hooks/useProgress";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
