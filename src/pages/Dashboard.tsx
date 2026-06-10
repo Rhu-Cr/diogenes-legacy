@@ -80,8 +80,6 @@ export default function Dashboard() {
         />
       </div>
 
-      <Navbar />
-
       <main className="pt-20 pb-16">
         <div className="container mx-auto px-4">
           {/* Back + Header */}
