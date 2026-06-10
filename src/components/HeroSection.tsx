@@ -43,8 +43,7 @@ export function HeroSection() {
             </Button>
             <Button
               size="lg"
-              variant="outline"
-              className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 text-base"
+              className="bg-gold-gradient text-secondary-foreground font-semibold shadow-gold hover:opacity-90 transition-opacity text-base px-8"
               asChild
             >
               <a href="#sobre">Conhecer Diógenes</a>
