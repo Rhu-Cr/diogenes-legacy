@@ -1,7 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
-import { Navbar } from "@/components/Navbar";
 import { useProgress } from "@/hooks/useProgress";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
@@ -63,7 +62,6 @@ export default function Lesson() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
       <main className="pt-20 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Breadcrumb */}

@@ -97,7 +97,7 @@ export default function ResetPassword() {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4 pt-16">
         <Card className="shadow-card max-w-md w-full">
           <CardContent className="p-8 text-center space-y-3">
             <Loader2 className="h-8 w-8 text-accent mx-auto animate-spin" aria-hidden="true" />
@@ -110,7 +110,7 @@ export default function ResetPassword() {
 
   if (status === "invalid") {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4 pt-16">
         <Card className="shadow-card max-w-md w-full">
           <CardContent className="p-8 text-center space-y-4">
             <AlertCircle className="h-10 w-10 text-destructive mx-auto" aria-hidden="true" />
@@ -135,7 +135,7 @@ export default function ResetPassword() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 pt-16">
       <div className="w-full max-w-md">
         <div className="mb-4">
           <BackButton label="Voltar" to="/auth" />

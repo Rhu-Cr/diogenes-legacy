@@ -1,7 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { Navbar } from "@/components/Navbar";
 import { DiogenesChatbot } from "@/components/DiogenesChatbot";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -80,8 +79,6 @@ export default function Dashboard() {
           aria-label={`Progresso geral: ${totalProgress}%`}
         />
       </div>
-
-      <Navbar />
 
       <main className="pt-20 pb-16">
         <div className="container mx-auto px-4">
