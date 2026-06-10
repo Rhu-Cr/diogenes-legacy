@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { LearningPaths } from "@/components/LearningPaths";
 import { ChallengesSection } from "@/components/ChallengesSection";
